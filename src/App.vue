@@ -1,47 +1,55 @@
-<script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
-</script>
-
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
+  <section v-if="loaded">
+    <Header />
+    <Carousel />
+  </section>
+  <Landing v-else @animationDone="this.loaded = true" />
 </template>
 
-<style scoped>
-header {
-  line-height: 1.5;
+<script>
+import Carousel from '@/components/Carousel.vue'
+import Header from './components/Header.vue'
+import Landing from './components/Landing.vue'
+
+export default {
+  name: 'App',
+  components: {
+    Header,
+    Carousel,
+    Landing
+  },
+  data() {
+    return {
+      loaded: false
+    }
+  }
+}
+</script>
+
+<style lang="scss">
+body {
+  margin: 0;
+  overflow: hidden;
+  background: black;
+}
+@font-face {
+  font-family: 'OverusedGrotesk';
+  font-weight: 500;
+  font-style: normal;
+  font-display: auto;
+  unicode-range: U+000-5FF;
+  src:
+    local('OverusedGrotesk'),
+    url('../public/fonts/OverusedGrotesk/OverusedGroteskSemiBold.woff2') format('woff2'),
+    url('../public/fonts/OverusedGrotesk/OverusedGroteskSemiBold.woff') format('woff');
 }
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
+#app {
+  font: 500 16px 'OverusedGrotesk';
+  letter-spacing: -0.25px;
+  line-height: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #2c3e50;
 }
 </style>

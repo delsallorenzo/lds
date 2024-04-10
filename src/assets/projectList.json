@@ -1,0 +1,70 @@
+{
+  "projects": [
+    {
+      "title": "01 Club Recordo",
+      "desc": "Club Recordo is a project born within the realm of music with the aim of offering people the opportunity to access a safe and inclusive space (both physical and virtual) where they can experience music as the absolute protagonist, rather than merely a backdrop. In a fast-paced world where sounds abound, often overwhelming, and where one scarcely finds time to truly listen, Club Recordo seeks to educate those who desire it in mindful and comprehensive listening.",
+      "media": "https://thumbsnap.com/i/efsYumJc.mp4",
+      "linkText": "Instagram",
+      "link": "https://www.instagram.com/clubrecordo/"
+    },
+    {
+      "title": "02 Aphex Twin: Bucephalus Transposed",
+      "desc": "Aphex Twin is an artist renowned for his capacity to craft music by melding disparate sonic elements, adhering to rules and algorithms that impart a sense of unity. In this video reinterpretation of Bucephalus Bouncing Ball, letters metamorphose into atoms, meandering cells that arrange and disarrange themselves, mirroring the sonic journeys of the artist.",
+      "media": "https://thumbsnap.com/i/7kk4TN4Q.mp4",
+      "link": "https://vimeo.com/470104310",
+      "linkText": "Full video"
+    },
+    {
+      "title": "03 What If",
+      "desc": "What If is an association dedicated to cultural and social promotion in the city of Padua. Comprising a group of volunteers under 30, driven by the desire to create welcoming and dynamic social networks and performance spaces. The association's activities include organizing events and initiatives, complemented by the use of social media channels. Through these channels, an event guide has been created for the daily publication of reminders about ongoing events.",
+      "media": "https://thumbsnap.com/i/NAAQskie.mp4",
+      "link": "https://www.instagram.com/whatif.events/",
+      "linkText": "Instagram"
+    },
+    {
+      "title": "04 ugoxsempre",
+      "desc": "Logo design and motion experiments that delve into the hyperpop dimension of ugoxsempre. The internal X in the name becomes the driving symbol in an attempt to establish itself as the primary iconographic element of the artist's visual identity.",
+      "media": "https://thumbsnap.com/i/Zo8BHbTT.mp4"
+    },
+    {
+      "title": "05 L’Amore In Bocca",
+      "desc": "Title design and graphics for Santi Francesi's song competing at Sanremo 2024.",
+      "media": "https://thumbsnap.com/i/8F5ZpuaM.mp4",
+      "link": "https://www.youtube.com/watch?v=quFGreXfKKg&ab_channel=SANTIFRANCESIVEVO",
+      "linkText": "Full video"
+    },
+    {
+      "title": "06 Kids",
+      "desc": "Title design for Bragora’s song Kids.",
+      "media": "https://thumbsnap.com/i/kkT2Kow3.mp4",
+      "link": "https://www.youtube.com/watch?v=orQKbB0Ic5w&ab_channel=BruTaLabel",
+      "linkText": "Full video"
+    },
+    {
+      "title": "07 i miei alibi",
+      "desc": "Visual identity for an independent artist.",
+      "media": "https://thumbsnap.com/i/HXf7AoKB.mp4"
+    }
+  ],
+  "header": {
+    "description": [
+      "Independent graphic and motion designer.",
+      "In every project of mine, the most important element is open dialogue.",
+      "Proudly cofounder of What If and Club Recordo.",
+      " Currently based in Milan. Work worldwide."
+    ],
+    "services": {
+      "title": "Services:",
+      "list": [
+        "Art direction",
+        "Motion Design",
+        "Visual identity systems",
+        "Social media design systems",
+        "Creative Consulting"
+      ]
+    },
+    "affiliations": {
+      "links": [{ "text": "What If" }, { "text": "Club Recordo" }]
+    }
+  }
+}
