@@ -1,16 +1,19 @@
 <template>
-  <div class="animation__container">
-    <div class="loading-page">
-      <Vue3Lottie
-        ref="anim"
-        :animationData="animation"
-        :delay="2000"
-        class="animation__wrapper"
-        :loop="false"
-        @onComplete="this.stopAnimation()"
-      />
-    </div>
-  </div>
+  <section class="animation__container">
+    <Vue3Lottie
+      ref="anim"
+      :animationData="animation"
+      :delay="1000"
+      class="animation__wrapper"
+      :loop="false"
+      @onComplete="handleAnimationComplete"
+    />
+    <div
+      class="curtain"
+      :class="{ dropFromTop: curtainDrop }"
+      @animationend="handleCurtainAnimationEnd"
+    ></div>
+  </section>
 </template>
 
 <script>
@@ -23,7 +26,7 @@ export default defineComponent({
   components: { Vue3Lottie },
   data() {
     return {
-      removeBackground: false,
+      curtainDrop: false,
       animation
     }
   },
@@ -31,54 +34,31 @@ export default defineComponent({
     play() {
       this.$refs.anim.play()
     },
-    stopAnimation() {
-      this.$refs.anim.stop()
-      this.removeBackground = false
+    handleAnimationComplete() {
+      this.curtainDrop = true
+    },
+    handleCurtainAnimationEnd() {
       this.$emit('animationDone')
     }
   },
   mounted() {
-    setTimeout(() => {
-      this.removeBackground = true
-      this.play()
-    }, 500)
+    this.play()
   }
 })
 </script>
 
 <style scoped lang="scss">
 .animation__container {
-  & .white__slide {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100svw;
-    height: 100svh;
-    z-index: 999;
-    background-color: white;
-    transition: transform 0.5s cubic-bezier(1, 0, 0, 0.9);
-    transform: translateY(0);
+  display: flex;
+  align-items: center;
+  height: 100svh;
+  width: 100svw;
+  background: black;
 
-    &.active__slide {
-      transform: translateY(100%);
-    }
-  }
-
-  & .loading-page {
-    position: fixed;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100svh;
-    width: 100svw;
-    z-index: 998;
-
-    & .animation__wrapper {
-      max-width: 20%;
-      max-height: 20%;
-      filter: invert(1) blur(5px);
-      background-color: transparent;
-    }
+  & .animation__wrapper {
+    max-width: 20%;
+    max-height: 20%;
+    filter: invert(1) blur(5px);
   }
 }
 </style>

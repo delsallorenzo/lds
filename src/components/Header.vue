@@ -22,7 +22,7 @@
           </p>
         </div>
         <div class="contacts">
-          <LinkComponent :text="'Mail'" :link="'mailto:delsal.lorenzo@gmail.com'" />
+          <LinkComponent :text="'Mail'" :link="'mailto:info@lorenzodelsal.com'" />
           <LinkComponent :text="'Instagram'" :link="'https://www.instagram.com/lorenzodelsal/'" />
         </div>
       </div>

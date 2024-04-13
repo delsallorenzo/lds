@@ -16,7 +16,7 @@
       <div class="description__content">
         <p class="description__paragraph">{{ project.desc }}</p>
         <LinkComponent
-          v-show="store.mobile && project.link"
+          v-show="project.link"
           :text="project.linkText"
           :link="project.link"
           class="description__link"
@@ -110,6 +110,7 @@ export default defineComponent({
       margin: 9px 10px 10px 10px;
       flex: 2;
       text-align: start;
+      max-width: 75%;
     }
 
     & .description__link {
@@ -130,6 +131,10 @@ export default defineComponent({
 @media screen and (max-width: 800px) {
   .description__wrapper .description__content {
     flex-flow: column;
+
+    & .description__paragraph {
+      max-width: 100%;
+    }
   }
 }
 </style>
