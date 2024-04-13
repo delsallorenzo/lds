@@ -1,4 +1,5 @@
 <template>
+  <div class="curtain" :class="{ dropToBottom: curtainDrop }"></div>
   <Cursor :label="cursorLabel" :cursorX="cursorX" :cursorY="cursorY" />
   <swiper
     :loop="true"
@@ -49,6 +50,7 @@ export default defineComponent({
       cursorX: 0,
       cursorY: 0,
       slides: [],
+      curtainDrop: false,
       store
     }
   },
@@ -77,6 +79,9 @@ export default defineComponent({
       }
     }
   },
+  mounted() {
+    this.curtainDrop = true
+  },
   created() {
     this.fetchSlides()
     let touchstartY = 0
@@ -91,28 +96,17 @@ export default defineComponent({
       touchendY = e.changedTouches[0].screenY
 
       if (!store.descriptionStatus && !store.headerStatus) {
-        // nothing is toggled
         if (touchendY < touchstartY - threshold) {
-          // swipe up, open description
-          // this.emitter("toggleDescription", true);
           store.descriptionStatus = true
         } else if (touchendY > touchstartY + threshold) {
-          // swipe down, open header
-          // this.emitter("toggleHeader", true);
           store.headerStatus = true
         }
       } else if (store.descriptionStatus) {
-        // description is toggled
         if (touchendY > touchstartY + threshold) {
-          // swipe down, close description
-          // this.emitter("toggleDescription", false);
           store.descriptionStatus = false
         }
       } else if (store.headerStatus) {
-        // header is toggled
         if (touchendY < touchstartY - threshold) {
-          // swipe up, close header
-          // this.emitter("toggleHeader", false);
           store.headerStatus = false
         }
       }
@@ -121,7 +115,7 @@ export default defineComponent({
 })
 </script>
 
-<style>
+<style scoped>
 .carousel__slide {
   height: 100svh;
   display: flex;

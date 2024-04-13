@@ -1,7 +1,7 @@
 <template>
   <div class="link-container">
     <div class="link__wrapper">
-      <a :href="link" class="link">{{ text }}</a>
+      <a :href="link" class="link" target="_blank" rel="noopener noreferrer">{{ text }}</a>
       <img class="right-arrow" src="@/assets/right-arrow.svg" />
     </div>
   </div>

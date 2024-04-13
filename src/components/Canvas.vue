@@ -12,44 +12,33 @@ export default defineComponent({
     this.createSketch()
     window.addEventListener('resize', this.windowResized)
   },
-  computed: {
-    scaleValue() {
-      // Detect whether the device is mobile or desktop
-      return window.innerWidth <= 900 ? 1 : 2 // Adjust this threshold according to your preference
-    }
-  },
   methods: {
+    scaleValue() {
+      return window.innerWidth <= 900 ? 1 : 2
+    },
     createSketch() {
       const sketch = (p) => {
         let obj
         let angleX = 0
         let angleY = 0
 
-        let beta = 0 // For device orientation
-        let gamma = 0 // For device orientation
+        let beta = 0
+        let gamma = 0
 
         p.preload = () => {
-          obj = p.loadModel(
-            'https://raw.githubusercontent.com/file098/lds/main/public/3d/model.obj',
-            true
-          )
+          obj = p.loadModel('/src/assets/model.obj', true)
         }
         p.setup = () => {
           const container = this.$refs.canvas
           p.createCanvas(container.offsetWidth, container.offsetHeight, p.WEBGL)
         }
-        p.windowResized = () => {
-          const container = this.$refs.canvas
-          p.resizeCanvas(container.offsetWidth, container.offsetHeight)
-        }
         p.draw = () => {
           p.background(220)
-          const maxAngle = p.PI / 4.5
 
-          // Oscillate beta and gamma values over time
-          const time = p.millis() * 0.001 // Convert millis to seconds
-          const betaOffset = p.sin(time * 0.05) * 45 // Adjust frequency and amplitude as needed
-          const gammaOffset = p.cos(time * 0.08) * 45 // Adjust frequency and amplitude as needed
+          const maxAngle = p.PI / 4.5
+          const time = p.millis() * 0.001
+          const betaOffset = p.sin(time * 0.05) * 45
+          const gammaOffset = p.cos(time * 0.08) * 45
 
           // If on mobile, use gyroscope data for rotation
           if (window.innerWidth <= 900) {
@@ -68,7 +57,12 @@ export default defineComponent({
           p.specularMaterial(255, 255, 255)
           p.shininess(100)
           p.fill(0)
-          p.scale(this.scaleValue, -this.scaleValue, this.scaleValue)
+
+          const widthRatio = p.map(window.innerWidth, 0, 1920, 1, 2)
+          const heightRatio = p.map(window.innerHeight, 0, 1080, 1, 2)
+          const ratio = Math.min(widthRatio, heightRatio)
+          p.scale(ratio, -ratio, ratio)
+          
           p.model(obj)
         }
       }
