@@ -26,7 +26,7 @@ export default defineComponent({
         let gamma = 0
 
         p.preload = () => {
-          obj = p.loadModel('/src/assets/model.obj', true)
+          obj = p.loadModel('/3d/model.obj', true)
         }
         p.setup = () => {
           const container = this.$refs.canvas
