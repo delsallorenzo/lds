@@ -2,6 +2,7 @@ import { reactive } from 'vue'
 
 export const store = reactive({
   descriptionStatus: false,
+  moreInfoStatus: false,
   headerStatus: false,
   mobile: window.innerWidth < 900,
 
@@ -19,5 +20,9 @@ export const store = reactive({
     if (this.descriptionStatus) {
       this.headerStatus = false
     }
+  },
+
+  toggleMoreInfo() {
+    this.moreInfoStatus = !this.moreInfoStatus
   }
 })

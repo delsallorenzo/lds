@@ -1,5 +1,8 @@
 <template>
-  <div class="carousel__item" ref="carouselItem">
+  <div 
+    class="carousel__item" 
+    ref="carouselItem"
+  >
     <div class="video-wrapper">
       <video ref="videoElement" autoplay muted loop playsinline class="video">
         <source :src="project.media" type="video/mp4" />
@@ -12,7 +15,12 @@
         class="problematic-element"
       />
     </div>
-    <div class="description__wrapper" :class="{ expand: store.descriptionStatus }">
+    <div 
+      class="description__wrapper" 
+      :class="{ expand: store.descriptionStatus }"
+      @mousedown.stop
+      @touchstart.stop
+    >
       <div class="description__content">
         <p class="description__paragraph">{{ project.desc }}</p>
         <LinkComponent
@@ -22,37 +30,28 @@
           class="description__link"
         />
       </div>
+      <ExtraInfoProject />
     </div>
   </div>
 </template>
 
-<script>
-import { defineComponent } from 'vue'
+<script setup lang="ts">
 import ButtonComponent from '@/components/Button.vue'
 import LinkComponent from '@/components/Link.vue'
 import { store } from '@/store.js'
+import ExtraInfoProject from './ExtraInfoProject.vue'
 
-export default defineComponent({
-  name: 'ProjectComponent',
-  components: {
-    ButtonComponent,
-    LinkComponent
-  },
-  data() {
-    return {
-      store
-    }
-  },
-  props: {
-    project: {
-      title: { type: String },
-      desc: { type: String },
-      linkText: { type: String },
-      link: { type: String },
-      media: { type: String }
-    }
-  }
-})
+interface ProjectProps {
+  title: string
+  desc: string
+  linkText: string
+  link: string
+  media: string
+}
+
+defineProps<{
+  project: ProjectProps
+}>()
 </script>
 
 <style scoped lang="scss">
@@ -99,7 +98,7 @@ export default defineComponent({
   transition: all 0.5s cubic-bezier(1, 0, 0, 0.9);
 
   &.expand {
-    max-height: 50vh;
+    max-height: 70vh;
   }
 
   & .description__content {

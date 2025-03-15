@@ -3,6 +3,7 @@
   <Cursor :label="cursorLabel" :cursorX="cursorX" :cursorY="cursorY" />
   <swiper
     :loop="true"
+    :allowTouchMove="!store.moreInfoStatus"
     @swiper="onSwiper"
     @slideChange="onSlideChange"
     @mousemove="handleMouseMove($event)"
@@ -56,6 +57,7 @@ export default defineComponent({
   },
   methods: {
     handleClick(event) {
+      
       const swiper = document.querySelector('.swiper').swiper
       if (event.target.className == 'video' && window.innerWidth > 900) {
         const clickX = event.clientX
