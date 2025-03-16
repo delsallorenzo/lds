@@ -10,6 +10,7 @@
 import Carousel from '@/components/Carousel.vue'
 import Header from './components/Header.vue'
 import Landing from './components/Landing.vue'
+import { store } from './store'
 
 export default {
   name: 'App',
@@ -22,6 +23,20 @@ export default {
     return {
       loaded: false
     }
+  },
+  methods: {
+    handleKeyDown(event) {
+      if (event.code === 'Space' || event.keyCode === 32) {
+        console.log('Spacebar pressed')
+        store.toggleDescription()
+      }
+    }
+  },
+  mounted() {
+    window.addEventListener('keydown', this.handleKeyDown)
+  },
+  beforeUnmount() {
+    window.removeEventListener('keydown', this.handleKeyDown)
   }
 }
 </script>

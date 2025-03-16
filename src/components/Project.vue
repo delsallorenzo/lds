@@ -1,32 +1,29 @@
 <template>
-  <div 
-    class="carousel__item" 
-    ref="carouselItem"
-  >
+  <div class="carousel__item" ref="carouselItem">
     <div class="video-wrapper">
       <video ref="videoElement" autoplay muted loop playsinline class="video">
-        <source :src="project.media" type="video/mp4" />
+        <source :src="props.project.media" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
       <ButtonComponent
-        :textBox="project.title"
+        :textBox="props.project.title"
         :opened="store.descriptionStatus"
         @click="store.toggleDescription()"
         class="problematic-element"
       />
     </div>
-    <div 
-      class="description__wrapper" 
+    <div
+      class="description__wrapper"
       :class="{ expand: store.descriptionStatus }"
       @mousedown.stop
       @touchstart.stop
     >
       <div class="description__content">
-        <p class="description__paragraph">{{ project.desc }}</p>
+        <p class="description__paragraph">{{ props.project.desc }}</p>
         <LinkComponent
-          v-show="project.link"
-          :text="project.linkText"
-          :link="project.link"
+          v-show="props.project.link"
+          :text="props.project.linkText"
+          :link="props.project.link"
           class="description__link"
         />
       </div>
@@ -49,7 +46,7 @@ interface ProjectProps {
   media: string
 }
 
-defineProps<{
+const props = defineProps<{
   project: ProjectProps
 }>()
 </script>
