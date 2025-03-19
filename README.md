@@ -9,3 +9,10 @@ TO deploy the application you can simply run the following command
 ```sh
 npm run deploy
 ```
+
+TODO: 
+[x] font https://github.com/kaspernordkvist/uncut_sans
+[x] icona da png a jpg per google 
+[] scrollare contenuti more
+[] assicurati che le altezze sono variabili
+[] dark/light mode: cambia background, testo, pulsanti 

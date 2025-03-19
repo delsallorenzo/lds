@@ -87,18 +87,18 @@ const props = defineProps<{
 }
 
 .description__wrapper {
-  background: linear-gradient(to bottom, #f4f4f4, #e5e5e5);
-
   width: 100%;
   max-height: 0;
   height: auto;
   transition: all 0.5s cubic-bezier(1, 0, 0, 0.9);
+  background-color: var(--primary-color);
 
   &.expand {
     max-height: 70vh;
   }
 
   & .description__content {
+    color: var(--secondary-color);
     display: flex;
     flex-flow: row;
 
@@ -112,7 +112,7 @@ const props = defineProps<{
     & .description__link {
       flex: 1;
       justify-content: flex-end;
-      align-items: flex-end;
+      align-items: flex-start;
       padding: 10px;
     }
   }

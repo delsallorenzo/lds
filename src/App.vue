@@ -3,104 +3,36 @@
     <Header />
     <Carousel />
   </section>
-  <Landing v-else @animationDone="this.loaded = true" />
+  <Landing v-else @animationDone="loaded = true" />
 </template>
 
-<script>
+<script setup lang="ts">
 import Carousel from '@/components/Carousel.vue'
 import Header from './components/Header.vue'
 import Landing from './components/Landing.vue'
+import ThemeSwitcher from './components/ThemeSwitcher.vue'
 import { store } from './store'
+import { onMounted, onUnmounted, ref } from 'vue'
 
-export default {
-  name: 'App',
-  components: {
-    Header,
-    Carousel,
-    Landing
-  },
-  data() {
-    return {
-      loaded: false
-    }
-  },
-  methods: {
-    handleKeyDown(event) {
-      if (event.code === 'Space' || event.keyCode === 32) {
-        console.log('Spacebar pressed')
-        store.toggleDescription()
-      }
-    }
-  },
-  mounted() {
-    window.addEventListener('keydown', this.handleKeyDown)
-  },
-  beforeUnmount() {
-    window.removeEventListener('keydown', this.handleKeyDown)
+const loaded = ref(false)
+
+function handleKeyDown(event) {
+  if (event.code === 'Space' || event.keyCode === 32) {
+    console.log('Spacebar pressed')
+    store.toggleDescription()
   }
 }
+
+onMounted(() => {
+  window.addEventListener('keydown', handleKeyDown)
+  store.initTheme() // Initialize theme on mount
+})
+
+onUnmounted(() => {
+  window.removeEventListener('keydown', handleKeyDown)
+})
 </script>
 
 <style lang="scss">
-body {
-  margin: 0;
-  overflow: hidden;
-  background: black;
-}
-@font-face {
-  font-family: 'OverusedGrotesk';
-  font-weight: 500;
-  font-style: normal;
-  font-display: auto;
-  unicode-range: U+000-5FF;
-  src:
-    local('OverusedGrotesk'),
-    url('../public/fonts/OverusedGrotesk/OverusedGroteskSemiBold.woff2') format('woff2'),
-    url('../public/fonts/OverusedGrotesk/OverusedGroteskSemiBold.woff') format('woff');
-}
-
-#app {
-  font: 500 16px 'OverusedGrotesk';
-  letter-spacing: -0.25px;
-  line-height: 16px;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
-}
-
-.curtain {
-  position: fixed;
-  height: 100svh;
-  width: 100svw;
-  background: rgb(245, 245, 245);
-  transform: translateY(-100%);
-  z-index: 999;
-
-  &.dropFromTop {
-    animation-name: drop-down-from-top;
-    animation-duration: 0.5s;
-    animation-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
-  }
-  &.dropToBottom {
-    animation-name: drop-down-to-bottom;
-    animation-duration: 0.5s;
-    animation-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
-  }
-  @keyframes drop-down-from-top {
-    from {
-      transform: translateY(-100%);
-    }
-    to {
-      transform: translateY(0);
-    }
-  }
-  @keyframes drop-down-to-bottom {
-    from {
-      transform: translateY(0);
-    }
-    to {
-      transform: translateY(100%);
-    }
-  }
-}
+@import '@/assets/main.scss';
 </style>

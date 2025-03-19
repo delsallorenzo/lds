@@ -1,5 +1,5 @@
 <template>
-  <div class="box-wrapper">
+  <div class="box-wrapper" @click="$emit('click')">
     <div class="text-box">{{ textBox }}</div>
     <div
       class="x-icon"
@@ -29,7 +29,8 @@ export default defineComponent({
   props: {
     textBox: { type: String, required: true },
     opened: { type: Boolean, default: false }
-  }
+  },
+  emits: ['click']
 })
 </script>
 
@@ -41,14 +42,14 @@ export default defineComponent({
   z-index: 100;
 
   & > * {
-    background: black;
+    background: var(--secondary-color);
     border-radius: 100px;
   }
 
   & .text-box {
     display: flex;
     align-items: center;
-    color: white;
+    color: var(--primary-color);
     padding: 0px 13px;
     line-height: 0px;
   }
@@ -59,5 +60,9 @@ export default defineComponent({
   align-items: center;
   padding: 5px;
   transition: transform 0.5s ease-in-out;
+  
+  & svg line {
+    stroke: var(--primary-color);
+  }
 }
 </style>

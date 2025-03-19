@@ -1,0 +1,163 @@
+$light: #f0f0f0; // Change this to your preferred light background color
+$dark: #202020; // Change this to your preferred dark background color
+
+:root {
+  // Light theme (default)
+  --primary-color: #{$dark};
+  --secondary-color: #{$light};
+}
+
+[data-theme='dark'] {
+  --primary-color: #{$light};
+  --secondary-color: #{$dark};
+}
+
+body {
+  margin: 0;
+  overflow: hidden;
+  background: var(--primary-color);
+  color: var(--secondary-color);
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+}
+
+// Import UncutSans font family
+
+// Regular
+@font-face {
+  font-family: 'UncutSans';
+  src:
+    url('../public/uncutSans/UncutSans-Regular.woff2') format('woff2'),
+    url('../public/uncutSans/UncutSans-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+// Bold
+@font-face {
+  font-family: 'UncutSans';
+  src:
+    url('../public/uncutSans/UncutSans-Bold.woff2') format('woff2'),
+    url('../public/uncutSans/UncutSans-Bold.woff') format('woff');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+// Medium
+@font-face {
+  font-family: 'UncutSans';
+  src:
+    url('../public/uncutSans/UncutSans-Medium.woff2') format('woff2'),
+    url('../public/uncutSans/UncutSans-Medium.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+// Light
+@font-face {
+  font-family: 'UncutSans';
+  src:
+    url('../public/uncutSans/UncutSans-Light.woff2') format('woff2'),
+    url('../public/uncutSans/UncutSans-Light.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+// You can add more variants as needed (Italic, etc.)
+
+// Add a utility class to use the font
+.uncut-sans {
+  font-family: 'UncutSans', sans-serif;
+}
+
+@font-face {
+  font-family: 'OverusedGrotesk';
+  font-weight: 500;
+  font-style: normal;
+  font-display: auto;
+  unicode-range: U+000-5FF;
+  src:
+    local('OverusedGrotesk'),
+    url('../public/fonts/OverusedGrotesk/OverusedGroteskSemiBold.woff2') format('woff2'),
+    url('../public/fonts/OverusedGrotesk/OverusedGroteskSemiBold.woff') format('woff');
+}
+
+#app {
+  font:
+    500 16px 'UncutSans',
+    sans-serif;
+  letter-spacing: -0.25px;
+  line-height: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: var(--secondary-color);
+}
+
+.curtain {
+  position: fixed;
+  height: 100svh;
+  width: 100svw;
+  background: rgb(245, 245, 245);
+  transform: translateY(-100%);
+  z-index: 999;
+
+  &.dropFromTop {
+    animation-name: drop-down-from-top;
+    animation-duration: 0.5s;
+    animation-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
+  }
+  &.dropToBottom {
+    animation-name: drop-down-to-bottom;
+    animation-duration: 0.5s;
+    animation-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
+  }
+  @keyframes drop-down-from-top {
+    from {
+      transform: translateY(-100%);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+  @keyframes drop-down-to-bottom {
+    from {
+      transform: translateY(0);
+    }
+    to {
+      transform: translateY(100%);
+    }
+  }
+}
+
+// Theme toggle button styles
+.theme-toggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 10px;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  background: var(--accent-color);
+  border: none;
+  color: var(--primary-color);
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+}

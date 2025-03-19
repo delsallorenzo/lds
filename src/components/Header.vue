@@ -26,47 +26,43 @@
           <LinkComponent :text="'Instagram'" :link="'https://www.instagram.com/lorenzodelsal/'" />
         </div>
       </div>
-      <div class="test">
+      <div class="buttons__container">
         <ButtonComponent
-          class="info-button"
+          class=""
           :opened="store.headerStatus"
           :textBox="'lds'"
           @click="store.toggleHeader()"
         />
+        <ThemeSwitcher class="" />
       </div>
     </div>
   </header>
 </template>
 
-<script>
-import { defineComponent } from 'vue'
+<script setup lang="ts">
+import projectList from '@/assets/projectList.json'
 import ButtonComponent from '@/components/Button.vue'
 import Canvas from '@/components/Canvas.vue'
 import LinkComponent from '@/components/Link.vue'
-import projectList from '@/assets/projectList.json'
+import ThemeSwitcher from '@/components/ThemeSwitcher.vue'
 import { store } from '@/store.js'
-
-export default defineComponent({
-  name: 'HeaderComponent',
-  data() {
-    return {
-      projectList,
-      store
-    }
-  },
-  components: {
-    ButtonComponent,
-    LinkComponent,
-    Canvas
-  }
-})
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 $header-height: 50px;
 
 .canvas__container {
   flex: 1;
+}
+
+.buttons__container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  transform: translateY(100%);
 }
 
 .info-container {
@@ -135,12 +131,12 @@ $header-height: 50px;
   z-index: 99;
 }
 
-.info-button {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  transform: translateY(100%);
-}
+// .info-button {
+//   position: absolute;
+//   bottom: 0;
+//   left: 0;
+//   transform: translateY(100%);
+// }
 
 @media screen and (max-width: 800px) {
   .info-container {
