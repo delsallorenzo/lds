@@ -1,72 +1,18 @@
 <template>
-  <div 
-    class="more-info-container"
-    @mousedown.stop
-    @touchstart.stop
-  >
-    <Button :textBox="'More'" :opened="opened" @click="store.toggleMoreInfo()" />
+  <div class="more-info-container" @mousedown.stop @touchstart.stop>
+    <Button :textBox="'More'" :opened="isOpen" @click="toggleProjectInfo" />
     <div
       class="more-info-content"
-      :class="{ 'content-open': opened }"
+      :class="{ 'content-open': isOpen }"
       ref="contentRef"
       @mousedown.stop="handleDragStart"
       @touchstart.stop="handleDragStart"
     >
-      <div class="more-info-element">
-        <div class="info-box"></div>
-        <span
-          >Lorem ipsum dolor sit amet consectetur, adipisicing elit. Blanditiis totam dolore magnam
-          voluptatem sapiente cum et aliquam eligendi ab quam maiores minima eveniet quibusdam,
-          molestias sit voluptatibus illo ullam excepturi!</span
-        >
-      </div>
-      <div class="more-info-element">
-        <div class="info-box"></div>
-        <span
-          >Lorem ipsum dolor sit amet consectetur, adipisicing elit. Blanditiis totam dolore magnam
-          voluptatem sapiente cum et aliquam eligendi ab quam maiores minima eveniet quibusdam,
-          molestias sit voluptatibus illo ullam excepturi!</span
-        >
-      </div>
-      <div class="more-info-element">
-        <div class="info-box"></div>
-        <span
-          >Lorem ipsum dolor sit amet consectetur, adipisicing elit. Blanditiis totam dolore magnam
-          voluptatem sapiente cum et aliquam eligendi ab quam maiores minima eveniet quibusdam,
-          molestias sit voluptatibus illo ullam excepturi!</span
-        >
-      </div>
-      <div class="more-info-element">
-        <div class="info-box"></div>
-        <span
-          >Lorem ipsum dolor sit amet consectetur, adipisicing elit. Blanditiis totam dolore magnam
-          voluptatem sapiente cum et aliquam eligendi ab quam maiores minima eveniet quibusdam,
-          molestias sit voluptatibus illo ullam excepturi!</span
-        >
-      </div>
-      <div class="more-info-element">
-        <div class="info-box"></div>
-        <span
-          >Lorem ipsum dolor sit amet consectetur, adipisicing elit. Blanditiis totam dolore magnam
-          voluptatem sapiente cum et aliquam eligendi ab quam maiores minima eveniet quibusdam,
-          molestias sit voluptatibus illo ullam excepturi!</span
-        >
-      </div>
-      <div class="more-info-element">
-        <div class="info-box"></div>
-        <span
-          >Lorem ipsum dolor sit amet consectetur, adipisicing elit. Blanditiis totam dolore magnam
-          voluptatem sapiente cum et aliquam eligendi ab quam maiores minima eveniet quibusdam,
-          molestias sit voluptatibus illo ullam excepturi!</span
-        >
-      </div>
-      <div class="more-info-element">
-        <div class="info-box"></div>
-        <span
-          >Lorem ipsum dolor sit amet consectetur, adipisicing elit. Blanditiis totam dolore magnam
-          voluptatem sapiente cum et aliquam eligendi ab quam maiores minima eveniet quibusdam,
-          molestias sit voluptatibus illo ullam excepturi!</span
-        >
+      <div class="more-info-element" v-for="item in prop.more" :key="item.text">
+        <div class="media-container">
+          <img v-if="item.media" :src="item.media" alt="Project media" class="media-image" />
+        </div>
+        <span class="description">{{ item.text }}</span>
       </div>
     </div>
   </div>
@@ -77,47 +23,57 @@ import Button from '@/components/Button.vue'
 import { computed, ref, onMounted, onUnmounted } from 'vue'
 import { store } from '@/store.js'
 
-const opened = computed(() => store.moreInfoStatus)
+const prop = defineProps<{
+  more?: { text: string; media: string }[];
+  projectId: string | number; // Add a required projectId prop
+}>()
+
+// Check if this specific project is open
+const isOpen = computed(() => store.isMoreInfoOpen(prop.projectId))
 const contentRef = ref<HTMLElement | null>(null)
 const isDragging = ref(false)
 let startX = 0
 let scrollLeft = 0
 
+// Toggle info for this specific project
+const toggleProjectInfo = () => {
+  store.toggleMoreInfo(prop.projectId);
+}
+
 const handleDragStart = (e: MouseEvent | TouchEvent) => {
-  // Stop propagation first to prevent Carousel/Swiper from handling this event
   e.stopPropagation()
-  
+
   if (!contentRef.value) return
 
   isDragging.value = true
   contentRef.value.classList.add('dragging')
-  
+
   // Get initial position
   const clientX = e instanceof MouseEvent ? e.clientX : e.touches[0].clientX
   startX = clientX
   scrollLeft = contentRef.value.scrollLeft
-  
+
   // Prevent default behavior
   e.preventDefault()
 }
 
 const handleDragMove = (e: MouseEvent | TouchEvent) => {
   if (!isDragging.value || !contentRef.value) return
-  
+
   // Stop propagation to prevent parent elements from handling
   e.stopPropagation()
-  
+
   // Calculate new scroll position
   const clientX = e instanceof MouseEvent ? e.clientX : e.touches[0].clientX
   const dx = clientX - startX
   contentRef.value.scrollLeft = scrollLeft - dx
-  
+
   // Prevent default scrolling behavior
   e.preventDefault()
 }
 
 const handleDragEnd = (e: MouseEvent | TouchEvent) => {
-  if (e) e.stopPropagation();
+  if (e) e.stopPropagation()
   isDragging.value = false
   if (contentRef.value) contentRef.value.classList.remove('dragging')
 }
@@ -172,11 +128,39 @@ onUnmounted(() => {
 
     .more-info-element {
       flex: 0 0 auto;
-      margin-right: 1rem;
-      max-width: 20%;
+      margin-right: 1.5rem;
+      width: 160px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex-shrink: 0;
 
       &:last-child {
         margin-right: 0;
+      }
+
+      .media-container {
+        width: 150px;
+        height: 150px;
+        overflow: hidden;
+        margin-bottom: 0.5rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 4px;
+
+        .media-image {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+      }
+
+      .description {
+        text-align: left;
+        font-size: 0.9rem;
+        width: 100%;
+        word-wrap: break-word;
       }
     }
 

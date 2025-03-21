@@ -5,7 +5,21 @@
       "desc": "Club Recordo is a project born within the realm of music with the aim of offering people the opportunity to access a safe and inclusive space (both physical and virtual) where they can experience music as the absolute protagonist, rather than merely a backdrop. In a fast-paced world where sounds abound, often overwhelming, and where one scarcely finds time to truly listen, Club Recordo seeks to educate those who desire it in mindful and comprehensive listening.",
       "media": "https://thumbsnap.com/i/efsYumJc.mp4",
       "linkText": "Instagram",
-      "link": "https://www.instagram.com/clubrecordo/"
+      "link": "https://www.instagram.com/clubrecordo/",
+      "more": [
+        {
+          "text": "lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.",
+          "media": "https://picsum.photos/200/300"
+        },
+        {
+          "text": "lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.",
+          "media": "https://picsum.photos/200/300"
+        },
+        {
+          "text": "lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.",
+          "media": "https://picsum.photos/200/300"
+        }
+      ]
     },
     {
       "title": "Aphex Twin: Bucephalus Transposed",
@@ -19,7 +33,33 @@
       "desc": "What If is an association dedicated to cultural and social promotion in the city of Padua. Comprising a group of volunteers under 30, driven by the desire to create welcoming and dynamic social networks and performance spaces. The association's activities include organizing events and initiatives, complemented by the use of social media channels. Through these channels, an event guide has been created for the daily publication of reminders about ongoing events.",
       "media": "https://thumbsnap.com/i/NAAQskie.mp4",
       "link": "https://www.instagram.com/whatif.events/",
-      "linkText": "Instagram"
+      "linkText": "Instagram",
+      "more": [
+        {
+          "text": "lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.",
+          "media": "https://picsum.photos/200/300"
+        },
+        {
+          "text": "lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.",
+          "media": "https://picsum.photos/200/300"
+        },
+        {
+          "text": "lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.",
+          "media": "https://picsum.photos/200/300"
+        },
+        {
+          "text": "lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.",
+          "media": "https://picsum.photos/200/300"
+        },
+        {
+          "text": "lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.",
+          "media": "https://picsum.photos/200/300"
+        },
+        {
+          "text": "lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.",
+          "media": "https://picsum.photos/200/300"
+        }
+      ]
     },
     {
       "title": "ugoxsempre",

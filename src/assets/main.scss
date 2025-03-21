@@ -2,14 +2,13 @@ $light: #f0f0f0; // Change this to your preferred light background color
 $dark: #202020; // Change this to your preferred dark background color
 
 :root {
-  // Light theme (default)
-  --primary-color: #{$dark};
-  --secondary-color: #{$light};
+  --primary-color: #{$light};
+  --secondary-color: #{$dark};
 }
 
 [data-theme='dark'] {
-  --primary-color: #{$light};
-  --secondary-color: #{$dark};
+  --primary-color: #{$dark};
+  --secondary-color: #{$light};
 }
 
 body {
@@ -28,8 +27,8 @@ body {
 @font-face {
   font-family: 'UncutSans';
   src:
-    url('../public/uncutSans/UncutSans-Regular.woff2') format('woff2'),
-    url('../public/uncutSans/UncutSans-Regular.woff') format('woff');
+    url('/uncutSans/UncutSans-Regular.woff2') format('woff2'),
+    url('/uncutSans/UncutSans-Regular.woff') format('woff');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -39,8 +38,8 @@ body {
 @font-face {
   font-family: 'UncutSans';
   src:
-    url('../public/uncutSans/UncutSans-Bold.woff2') format('woff2'),
-    url('../public/uncutSans/UncutSans-Bold.woff') format('woff');
+    url('/uncutSans/UncutSans-Bold.woff2') format('woff2'),
+    url('/uncutSans/UncutSans-Bold.woff') format('woff');
   font-weight: bold;
   font-style: normal;
   font-display: swap;
@@ -50,8 +49,8 @@ body {
 @font-face {
   font-family: 'UncutSans';
   src:
-    url('../public/uncutSans/UncutSans-Medium.woff2') format('woff2'),
-    url('../public/uncutSans/UncutSans-Medium.woff') format('woff');
+    url('/uncutSans/UncutSans-Medium.woff2') format('woff2'),
+    url('/uncutSans/UncutSans-Medium.woff') format('woff');
   font-weight: 500;
   font-style: normal;
   font-display: swap;
@@ -61,8 +60,8 @@ body {
 @font-face {
   font-family: 'UncutSans';
   src:
-    url('../public/uncutSans/UncutSans-Light.woff2') format('woff2'),
-    url('../public/uncutSans/UncutSans-Light.woff') format('woff');
+    url('/uncutSans/UncutSans-Light.woff2') format('woff2'),
+    url('/uncutSans/UncutSans-Light.woff') format('woff');
   font-weight: 300;
   font-style: normal;
   font-display: swap;
@@ -83,8 +82,8 @@ body {
   unicode-range: U+000-5FF;
   src:
     local('OverusedGrotesk'),
-    url('../public/fonts/OverusedGrotesk/OverusedGroteskSemiBold.woff2') format('woff2'),
-    url('../public/fonts/OverusedGrotesk/OverusedGroteskSemiBold.woff') format('woff');
+    url('/fonts/OverusedGrotesk/OverusedGroteskSemiBold.woff2') format('woff2'),
+    url('/fonts/OverusedGrotesk/OverusedGroteskSemiBold.woff') format('woff');
 }
 
 #app {

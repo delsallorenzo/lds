@@ -27,7 +27,11 @@
           class="description__link"
         />
       </div>
-      <ExtraInfoProject />
+      <ExtraInfoProject
+        :more="props.project.more"
+        v-if="props.project.more?.length"
+        :projectId="project.title"
+      />
     </div>
   </div>
 </template>
@@ -44,6 +48,7 @@ interface ProjectProps {
   linkText: string
   link: string
   media: string
+  more?: { text: string; media: string }[]
 }
 
 const props = defineProps<{

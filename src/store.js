@@ -6,6 +6,7 @@ export const store = reactive({
   headerStatus: false,
   mobile: window.innerWidth < 900,
   theme: localStorage.getItem('theme') || 'light', // Default to light theme
+  activeMoreInfoProjectId: null, // Track the currently open project
 
   toggleHeader() {
     this.headerStatus = !this.headerStatus
@@ -23,8 +24,20 @@ export const store = reactive({
     }
   },
 
-  toggleMoreInfo() {
-    this.moreInfoStatus = !this.moreInfoStatus
+  toggleMoreInfo(projectId) {
+    if (this.activeMoreInfoProjectId === projectId) {
+      // If clicking the currently open project, close it
+      this.activeMoreInfoProjectId = null;
+      this.moreInfoStatus = false;
+    } else {
+      // Otherwise, open the new project and track its ID
+      this.activeMoreInfoProjectId = projectId;
+      this.moreInfoStatus = true;
+    }
+  },
+  
+  isMoreInfoOpen(projectId) {
+    return this.moreInfoStatus && this.activeMoreInfoProjectId === projectId;
   },
   
   toggleTheme() {
@@ -44,5 +57,11 @@ export const store = reactive({
   
   initTheme() {
     this.applyTheme()
+    // Listen for system theme changes
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
+    mediaQuery.addEventListener('change', (e) => {
+      const newTheme = e.matches ? 'dark' : 'light'
+      this.setTheme(newTheme)
+    })
   }
 })
