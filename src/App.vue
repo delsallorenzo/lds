@@ -40,8 +40,8 @@ body {
   unicode-range: U+000-5FF;
   src:
     local('OverusedGrotesk'),
-    url('../public/fonts/OverusedGrotesk/OverusedGroteskSemiBold.woff2') format('woff2'),
-    url('../public/fonts/OverusedGrotesk/OverusedGroteskSemiBold.woff') format('woff');
+    url('../fonts/OverusedGrotesk/OverusedGroteskSemiBold.woff2') format('woff2'),
+    url('../fonts/OverusedGrotesk/OverusedGroteskSemiBold.woff') format('woff');
 }
 
 #app {

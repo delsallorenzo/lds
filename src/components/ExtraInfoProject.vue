@@ -1,190 +1,135 @@
 <template>
-  <div 
-    class="more-info-container"
-    @mousedown.stop
-    @touchstart.stop
-  >
-    <Button :textBox="'More'" :opened="opened" @click="store.toggleMoreInfo()" />
-    <div
-      class="more-info-content"
-      :class="{ 'content-open': opened }"
-      ref="contentRef"
-      @mousedown.stop="handleDragStart"
-      @touchstart.stop="handleDragStart"
-    >
-      <div class="more-info-element">
-        <div class="info-box"></div>
-        <span
-          >Lorem ipsum dolor sit amet consectetur, adipisicing elit. Blanditiis totam dolore magnam
-          voluptatem sapiente cum et aliquam eligendi ab quam maiores minima eveniet quibusdam,
-          molestias sit voluptatibus illo ullam excepturi!</span
-        >
-      </div>
-      <div class="more-info-element">
-        <div class="info-box"></div>
-        <span
-          >Lorem ipsum dolor sit amet consectetur, adipisicing elit. Blanditiis totam dolore magnam
-          voluptatem sapiente cum et aliquam eligendi ab quam maiores minima eveniet quibusdam,
-          molestias sit voluptatibus illo ullam excepturi!</span
-        >
-      </div>
-      <div class="more-info-element">
-        <div class="info-box"></div>
-        <span
-          >Lorem ipsum dolor sit amet consectetur, adipisicing elit. Blanditiis totam dolore magnam
-          voluptatem sapiente cum et aliquam eligendi ab quam maiores minima eveniet quibusdam,
-          molestias sit voluptatibus illo ullam excepturi!</span
-        >
-      </div>
-      <div class="more-info-element">
-        <div class="info-box"></div>
-        <span
-          >Lorem ipsum dolor sit amet consectetur, adipisicing elit. Blanditiis totam dolore magnam
-          voluptatem sapiente cum et aliquam eligendi ab quam maiores minima eveniet quibusdam,
-          molestias sit voluptatibus illo ullam excepturi!</span
-        >
-      </div>
-      <div class="more-info-element">
-        <div class="info-box"></div>
-        <span
-          >Lorem ipsum dolor sit amet consectetur, adipisicing elit. Blanditiis totam dolore magnam
-          voluptatem sapiente cum et aliquam eligendi ab quam maiores minima eveniet quibusdam,
-          molestias sit voluptatibus illo ullam excepturi!</span
-        >
-      </div>
-      <div class="more-info-element">
-        <div class="info-box"></div>
-        <span
-          >Lorem ipsum dolor sit amet consectetur, adipisicing elit. Blanditiis totam dolore magnam
-          voluptatem sapiente cum et aliquam eligendi ab quam maiores minima eveniet quibusdam,
-          molestias sit voluptatibus illo ullam excepturi!</span
-        >
-      </div>
-      <div class="more-info-element">
-        <div class="info-box"></div>
-        <span
-          >Lorem ipsum dolor sit amet consectetur, adipisicing elit. Blanditiis totam dolore magnam
-          voluptatem sapiente cum et aliquam eligendi ab quam maiores minima eveniet quibusdam,
-          molestias sit voluptatibus illo ullam excepturi!</span
-        >
+  <section class="extra-info-container" v-if="project.extraInfo && project.extraInfo.pictures.length > 0">
+    <Button @click="toggleMoreInfo" :textBox="opened ? 'Close' : 'More Info'" :opened="opened" />
+    <div class="extra-info-content" :class="{ opened: opened }">
+      <div class="extra-info-details">
+        <div class="extra-info-gallery">
+          <picture
+            v-for="(picture, index) in project.extraInfo.pictures"
+            :key="index"
+            class="gallery-picture"
+          >
+            <img
+              :src="picture"
+              :alt="`${project.title} - Image ${index + 1}`"
+              class="gallery-image"
+              loading="lazy"
+              decoding="async"
+              @load="handleImageLoad"
+            />
+          </picture>
+        </div>
       </div>
     </div>
-  </div>
+  </section>
 </template>
 
 <script setup lang="ts">
-import Button from '@/components/Button.vue'
-import { computed, ref, onMounted, onUnmounted } from 'vue'
-import { store } from '@/store.js'
+import Button from '@/components/Button.vue';
+import { Project } from '@/models/project.model';
+import { store } from '@/store.js';
+import { computed, defineProps, ref } from 'vue';
 
-const opened = computed(() => store.moreInfoStatus)
-const contentRef = ref<HTMLElement | null>(null)
-const isDragging = ref(false)
-let startX = 0
-let scrollLeft = 0
+defineProps<{
+  project: Project
+}>()
 
-const handleDragStart = (e: MouseEvent | TouchEvent) => {
-  // Stop propagation first to prevent Carousel/Swiper from handling this event
-  e.stopPropagation()
-  
-  if (!contentRef.value) return
+const opened = ref(false)
+const globalOpened = computed(() => store.moreInfoStatus)
 
-  isDragging.value = true
-  contentRef.value.classList.add('dragging')
-  
-  // Get initial position
-  const clientX = e instanceof MouseEvent ? e.clientX : e.touches[0].clientX
-  startX = clientX
-  scrollLeft = contentRef.value.scrollLeft
-  
-  // Prevent default behavior
-  e.preventDefault()
+const toggleMoreInfo = () => {
+  opened.value = !opened.value
+  store.toggleMoreInfo()
 }
 
-const handleDragMove = (e: MouseEvent | TouchEvent) => {
-  if (!isDragging.value || !contentRef.value) return
-  
-  // Stop propagation to prevent parent elements from handling
-  e.stopPropagation()
-  
-  // Calculate new scroll position
-  const clientX = e instanceof MouseEvent ? e.clientX : e.touches[0].clientX
-  const dx = clientX - startX
-  contentRef.value.scrollLeft = scrollLeft - dx
-  
-  // Prevent default scrolling behavior
-  e.preventDefault()
+const handleImageLoad = (event: Event) => {
+  const img = event.target as HTMLImageElement
+  img.classList.add('loaded')
 }
-
-const handleDragEnd = (e: MouseEvent | TouchEvent) => {
-  if (e) e.stopPropagation();
-  isDragging.value = false
-  if (contentRef.value) contentRef.value.classList.remove('dragging')
-}
-
-onMounted(() => {
-  document.addEventListener('mousemove', handleDragMove, { passive: false })
-  document.addEventListener('mouseup', handleDragEnd)
-  document.addEventListener('touchmove', handleDragMove, { passive: false })
-  document.addEventListener('touchend', handleDragEnd)
-})
-
-onUnmounted(() => {
-  document.removeEventListener('mousemove', handleDragMove)
-  document.removeEventListener('mouseup', handleDragEnd)
-  document.removeEventListener('touchmove', handleDragMove)
-  document.removeEventListener('touchend', handleDragEnd)
-})
 </script>
 
-<style scoped lang="scss">
-.more-info-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  padding: 0.5rem 0;
+<style lang="scss" scoped>
+.extra-info-container {
   width: 100%;
+}
 
-  & .more-info-content {
-    display: inline-flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.3s ease-out;
-    margin: 0 0.5rem;
-    width: 100%;
+.extra-info-content {
+  width: 100%;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: 
+    max-height 0.5s cubic-bezier(1, 0, 0, 0.9),
+    opacity 0.3s ease 0.1s;
 
-    &.content-open {
-      max-height: 1000px;
-      transition: max-height 0.5s ease-in;
-      overflow-x: auto;
-      flex-wrap: nowrap;
-      scrollbar-width: none;
-      cursor: grab;
-    }
+  &.opened {
+    max-height: 60vh;
+    opacity: 1;
+  }
+}
 
-    &.dragging {
-      cursor: grabbing;
-      user-select: none;
-    }
+.extra-info-details {
+  padding: 1rem;
+  padding-bottom: 2rem;
 
-    .more-info-element {
-      flex: 0 0 auto;
-      margin-right: 1rem;
-      max-width: 20%;
+  p {
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+  }
+}
 
-      &:last-child {
-        margin-right: 0;
-      }
-    }
+.extra-info-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
 
-    .info-box {
-      width: 200px;
-      min-height: 200px;
-      background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 55%, #fad0c4 100%);
-    }
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 0.75rem;
+  }
+
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+}
+
+.gallery-picture {
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+.gallery-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  transition:
+    transform 0.3s ease,
+    opacity 0.3s ease;
+  opacity: 0;
+
+  &.loaded {
+    opacity: 1;
+  }
+
+  @media (max-width: 480px) {
+    height: 150px;
+  }
+
+  &:not(.loaded) {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+  }
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
   }
 }
 </style>

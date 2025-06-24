@@ -5,37 +5,74 @@
       "desc": "Club Recordo is a project born within the realm of music with the aim of offering people the opportunity to access a safe and inclusive space (both physical and virtual) where they can experience music as the absolute protagonist, rather than merely a backdrop. In a fast-paced world where sounds abound, often overwhelming, and where one scarcely finds time to truly listen, Club Recordo seeks to educate those who desire it in mindful and comprehensive listening.",
       "media": "https://thumbsnap.com/i/efsYumJc.mp4",
       "linkText": "Instagram",
-      "link": "https://www.instagram.com/clubrecordo/"
+      "link": "https://www.instagram.com/clubrecordo/",
+      "extraInfo": {
+        "pictures": [
+          "/images/projects/club-recordo/cr-01.jpg",
+          "/images/projects/club-recordo/cr-02.jpg",
+          "/images/projects/club-recordo/cr-03.jpg",
+          "/images/projects/club-recordo/cr-04.jpg",
+          "/images/projects/club-recordo/cr-05.jpg",
+          "/images/projects/club-recordo/cr-06.jpg",
+          "/images/projects/club-recordo/cr-07.jpg"
+        ]
+      }
     },
     {
       "title": "Aphex Twin: Bucephalus Transposed",
       "desc": "Aphex Twin is an artist renowned for his capacity to craft music by melding disparate sonic elements, adhering to rules and algorithms that impart a sense of unity. In this video reinterpretation of Bucephalus Bouncing Ball, letters metamorphose into atoms, meandering cells that arrange and disarrange themselves, mirroring the sonic journeys of the artist.",
       "media": "https://thumbsnap.com/i/7kk4TN4Q.mp4",
       "link": "https://vimeo.com/470104310",
-      "linkText": "Full video"
+      "linkText": "Full video",
+      "extraInfo": {
+        "pictures": [
+          "/images/projects/aphex-twin/image1.jpg",
+          "/images/projects/aphex-twin/image2.jpg"
+        ]
+      }
     },
     {
       "title": "What If",
       "desc": "What If is an association dedicated to cultural and social promotion in the city of Padua. Comprising a group of volunteers under 30, driven by the desire to create welcoming and dynamic social networks and performance spaces. The association's activities include organizing events and initiatives, complemented by the use of social media channels. Through these channels, an event guide has been created for the daily publication of reminders about ongoing events.",
       "media": "https://thumbsnap.com/i/NAAQskie.mp4",
       "link": "https://www.instagram.com/whatif.events/",
-      "linkText": "Instagram"
+      "linkText": "Instagram",
+      "extraInfo": {
+        "pictures": [
+          "/images/projects/what-if/image1.jpg",
+          "/images/projects/what-if/image2.jpg",
+          "/images/projects/what-if/image3.jpg"
+        ]
+      }
     },
     {
       "title": "ugoxsempre",
       "desc": "Logo design and motion experiments that delve into the hyperpop dimension of ugoxsempre. The internal X in the name becomes the driving symbol in an attempt to establish itself as the primary iconographic element of the artist's visual identity.",
-      "media": "https://thumbsnap.com/i/Zo8BHbTT.mp4"
+      "media": "https://thumbsnap.com/i/Zo8BHbTT.mp4",
+      "extraInfo": {
+        "pictures": [
+          "/images/projects/ugoxsempre/image1.jpg",
+          "/images/projects/ugoxsempre/image2.jpg"
+        ]
+      }
     },
     {
       "title": "L'Amore In Bocca",
       "desc": "Title design and graphics for Santi Francesi's song competing at Sanremo 2024.",
       "media": "https://thumbsnap.com/i/8F5ZpuaM.mp4",
       "link": "https://www.youtube.com/watch?v=quFGreXfKKg&ab_channel=SANTIFRANCESIVEVO",
-      "linkText": "Full video"
+      "linkText": "Full video",
+      "extraInfo": {
+        "pictures": [
+          "/images/projects/sanremo/image1.jpg",
+          "/images/projects/sanremo/image2.jpg",
+          "/images/projects/sanremo/image3.jpg"
+        ]
+      }
     },
     {
       "title": "Goto",
-      "desc": "Title design and typography crafted for the film celebrating the 30th anniversary of Goto, an emblematic glass produced by Laguna~B. The approach reimagines the typeface to reflect the product’s rounded, playful forms while honoring its Venetian heritage. 'Goto' - meaning glass in Venetian - anchors the design in tradition, reflecting Laguna~B's innovative vision since its inception.",
+      "desc": "Title design and typography crafted for the film celebrating the 30th anniversary of Goto, an emblematic glass produced by Laguna~B. The approach reimagines the typeface to reflect the product's rounded, playful forms while honoring its Venetian heritage. 'Goto' - meaning glass in Venetian - anchors the design in tradition, reflecting Laguna~B's innovative vision since its inception.",
       "media": "https://thumbsnap.com/i/xjPWuFLA.mp4"
     },
     {

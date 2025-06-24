@@ -30,7 +30,7 @@
           class="description__link"
         />
       </div>
-      <ExtraInfoProject />
+      <ExtraInfoProject :project="project" />
     </div>
   </div>
 </template>
