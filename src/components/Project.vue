@@ -1,8 +1,5 @@
 <template>
-  <div 
-    class="carousel__item" 
-    ref="carouselItem"
-  >
+  <div class="carousel__item" ref="carouselItem">
     <div class="video-wrapper">
       <video ref="videoElement" autoplay muted loop playsinline class="video">
         <source :src="project.media" type="video/mp4" />
@@ -15,8 +12,8 @@
         class="problematic-element"
       />
     </div>
-    <div 
-      class="description__wrapper" 
+    <div
+      class="description__wrapper"
       :class="{ expand: store.descriptionStatus }"
       @mousedown.stop
       @touchstart.stop
@@ -30,7 +27,22 @@
           class="description__link"
         />
       </div>
-      <ExtraInfoProject :project="project" />
+      <!-- <ExtraInfoProject :project="project" /> -->
+      <ButtonComponent
+        :textBox="store.moreInfoStatus ? 'Close' : 'More Info'"
+        :opened="store.moreInfoStatus"
+        @click="store.toggleMoreInfo()"
+        v-if="project.extraInfo?.pictures && project.extraInfo.pictures.length > 0"
+      />
+      <div class="extra-info-gallery" v-if="project.extraInfo?.pictures" v-show="showPicture">
+        <picture
+          v-for="(picture, index) in project.extraInfo.pictures"
+          :key="index"
+          class="gallery-picture"
+        >
+          <img :src="picture" class="gallery-image" loading="lazy" decoding="async" />
+        </picture>
+      </div>
     </div>
   </div>
 </template>
@@ -38,20 +50,15 @@
 <script setup lang="ts">
 import ButtonComponent from '@/components/Button.vue'
 import LinkComponent from '@/components/Link.vue'
+import { Project } from '@/models/project.model'
 import { store } from '@/store.js'
-import ExtraInfoProject from './ExtraInfoProject.vue'
-
-interface ProjectProps {
-  title: string
-  desc: string
-  linkText: string
-  link: string
-  media: string
-}
+import { computed } from 'vue'
 
 defineProps<{
-  project: ProjectProps
+  project: Project
 }>()
+
+const showPicture = computed(() => store.moreInfoStatus)
 </script>
 
 <style scoped lang="scss">
@@ -96,9 +103,11 @@ defineProps<{
   max-height: 0;
   height: auto;
   transition: all 0.5s cubic-bezier(1, 0, 0, 0.9);
+  overflow-y: auto;
 
   &.expand {
-    max-height: 70vh;
+    max-height: max-content;
+    height: 100%;
   }
 
   & .description__content {

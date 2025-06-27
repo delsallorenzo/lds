@@ -63,7 +63,7 @@ const handleImageLoad = (event: Event) => {
     opacity 0.3s ease 0.1s;
 
   &.opened {
-    max-height: 60vh;
+    max-height: 100%;
     opacity: 1;
   }
 }
