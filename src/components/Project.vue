@@ -130,6 +130,28 @@ const showPicture = computed(() => store.moreInfoStatus)
   }
 }
 
+.extra-info-gallery {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  width: 100%;
+  max-height: 100%;
+
+  & .gallery-picture {
+    width: calc(100% / 3 - 20px);
+    margin: 10px;
+    position: relative;
+    flex: 1;
+
+    & .gallery-image {
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+  }
+}
+
 // https://stackoverflow.com/questions/61801579/vue-js-rendering-issues-with-safari
 .problematic-element {
   min-width: 0%;
@@ -142,6 +164,17 @@ const showPicture = computed(() => store.moreInfoStatus)
 
     & .description__paragraph {
       max-width: 100%;
+    }
+  }
+
+  .extra-info-gallery {
+    flex-flow: column;
+    width: 100%;
+    max-height: 100%;
+
+    & .gallery-picture {
+      width: 100%;
+      margin: 10px 0;
     }
   }
 }
