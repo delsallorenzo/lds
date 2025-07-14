@@ -1,181 +1,327 @@
 <template>
-  <div class="carousel__item" ref="carouselItem">
-    <div class="video-wrapper">
-      <video ref="videoElement" autoplay muted loop playsinline class="video">
-        <source :src="project.media" type="video/mp4" />
-        Your browser does not support the video tag.
-      </video>
-      <ButtonComponent
-        :textBox="project.title"
-        :opened="store.descriptionStatus"
-        @click="store.toggleDescription()"
-        class="problematic-element"
+  <section class="project">
+    <div class="video-container">
+      <video class="video" autoplay loop muted playsinline :src="props.project.media"></video>
+      <Button
+        id="description-button"
+        :textBox="props.project.title"
+        :opened="descriptionStatus"
+        @click="toggleDescription"
       />
     </div>
-    <div
-      class="description__wrapper"
-      :class="{ expand: store.descriptionStatus }"
-      @mousedown.stop
-      @touchstart.stop
-    >
-      <div class="description__content">
-        <p class="description__paragraph">{{ project.desc }}</p>
-        <LinkComponent
-          v-show="project.link"
-          :text="project.linkText"
-          :link="project.link"
-          class="description__link"
-        />
+    <div class="description-container" :class="{ open: descriptionStatus }">
+      <div class="description-text">
+        <span class="description">{{ props.project.desc }}</span>
+        <Link :text="props.project.linkText" :link="props.project.link" class="link" />
       </div>
-      <!-- <ExtraInfoProject :project="project" /> -->
-      <ButtonComponent
-        :textBox="store.moreInfoStatus ? 'Close' : 'More Info'"
-        :opened="store.moreInfoStatus"
-        @click="store.toggleMoreInfo()"
-        v-if="project.extraInfo?.pictures && project.extraInfo.pictures.length > 0"
+      <Button
+        textBox="More Info"
+        :opened="moreInfoOpen"
+        @click="toggleMoreInfo"
+        class="more-info-button"
+        v-show="props.project.extraInfo"
       />
-      <div class="extra-info-gallery" v-if="project.extraInfo?.pictures" v-show="showPicture">
-        <picture
-          v-for="(picture, index) in project.extraInfo.pictures"
-          :key="index"
-          class="gallery-picture"
-        >
-          <img :src="picture" class="gallery-image" loading="lazy" decoding="async" />
-        </picture>
+      <div
+        class="gallery"
+        :class="{ open: moreInfoOpen }"
+        v-if="props.project.extraInfo"
+        @wheel="scrollGallery($event)"
+      >
+        <div class="gallery-item" v-for="(image, index) in images" :key="index">
+          <div v-if="!image.loaded" class="image-skeleton"></div>
+          <img
+            class="gallery-image"
+            :class="{ loaded: image.loaded }"
+            :src="image.src"
+            :alt="image.alt"
+            @load="onImageLoad(index)"
+            @error="onImageError(index)"
+          />
+        </div>
       </div>
     </div>
-  </div>
+  </section>
 </template>
 
-<script setup lang="ts">
-import ButtonComponent from '@/components/Button.vue'
-import LinkComponent from '@/components/Link.vue'
+<script lang="ts" setup>
 import { Project } from '@/models/project.model'
 import { store } from '@/store.js'
-import { computed } from 'vue'
+import { computed, onMounted, ref } from 'vue'
+import Button from './Button.vue'
+import Link from './Link.vue'
 
-defineProps<{
+const props = defineProps<{
   project: Project
 }>()
 
-const showPicture = computed(() => store.moreInfoStatus)
+const descriptionStatus = computed(() => store.descriptionStatus)
+const moreInfoOpen = ref(false)
+
+const toggleDescription = () => {
+  store.toggleDescription()
+}
+
+interface ImageItem {
+  src: string
+  alt: string
+  loaded: boolean
+}
+
+const images = ref<ImageItem[]>([])
+
+const toggleMoreInfo = () => {
+  moreInfoOpen.value = !moreInfoOpen.value
+}
+
+const onImageLoad = (index: number) => {
+  images.value[index].loaded = true
+}
+
+const onImageError = (index: number) => {
+  images.value[index].loaded = true // Hide skeleton even on error
+}
+
+const scrollGallery = (event: WheelEvent) => {
+  if (!moreInfoOpen.value) return // Only scroll if gallery is open
+  // event.preventDefault()
+  const gallery = event.currentTarget as HTMLElement
+  gallery.scrollLeft += event.deltaY
+}
+
+onMounted(() => {
+  // Initialize images from project's extraInfo if available
+  if (props.project.extraInfo?.pictures) {
+    images.value = props.project.extraInfo.pictures.map((picturePath, index) => ({
+      src: picturePath,
+      alt: `${props.project.title} image ${index + 1}`,
+      loaded: false
+    }))
+  }
+})
 </script>
 
 <style scoped lang="scss">
-.carousel__item {
-  height: 100svh;
-  width: 100svw;
-  background: black;
+$picture-width: 350px;
+$picture-height: 350px;
+
+$desktop-width: 500px;
+$desktop-height: 500px;
+
+$mobile-width: 300px;
+$mobile-height: 300px;
+
+.project {
   display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-end;
-  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom)
-    env(safe-area-inset-left);
-  & .video-wrapper {
-    width: 100%;
-    height: 100%;
+  flex-flow: column nowrap;
+  height: 100dvh;
+
+  .video-container {
+    flex: 1;
     position: relative;
     overflow: hidden;
     display: flex;
-    align-items: flex-end;
     justify-content: flex-start;
+    align-items: flex-end;
 
-    &:hover video {
-      cursor: none;
-    }
-
-    & video {
+    video {
       object-fit: cover;
-      position: absolute;
-      top: 0;
-      left: 0;
+      width: 100%;
       height: 100%;
-      width: 100%;
     }
   }
-}
 
-.description__wrapper {
-  background: linear-gradient(to bottom, #f4f4f4, #e5e5e5);
-
-  width: 100%;
-  max-height: 0;
-  height: auto;
-  transition: all 0.5s cubic-bezier(1, 0, 0, 0.9);
-  overflow-y: auto;
-
-  &.expand {
-    max-height: max-content;
-    height: 100%;
-  }
-
-  & .description__content {
+  .description-container {
+    height: auto;
+    max-height: 0;
+    overflow: hidden;
     display: flex;
-    flex-flow: row;
+    flex-direction: column;
+    flex-shrink: 0;
+    padding: 0 10px;
+    background: linear-gradient(to bottom, #f4f4f4, #e5e5e5);
+    transition:
+      max-height 0.5s ease-in-out,
+      padding 0.5s ease-in-out;
 
-    & .description__paragraph {
-      margin: 9px 10px 10px 10px;
-      flex: 2;
-      text-align: start;
-      max-width: 75%;
-    }
-
-    & .description__link {
-      flex: 1;
-      justify-content: flex-end;
-      align-items: flex-end;
+    &.open {
+      max-height: 60dvh;
       padding: 10px;
+      overflow-y: auto;
+    }
+
+    .description-text {
+      display: flex;
+      flex-direction: row;
+      align-items: flex-end;
+      justify-content: space-between;
+
+      .description {
+        flex: 2;
+      }
+
+      .link {
+        flex: 1;
+        justify-content: flex-end;
+      }
+
+      @media (max-width: 768px) {
+        flex-direction: column;
+        align-items: flex-start;
+
+        .description-title {
+          font-size: 1.25rem;
+        }
+
+        .description-meta {
+          font-size: 0.875rem;
+        }
+      }
+    }
+
+    .more-info-button {
+      margin-top: 10px;
+      padding: 0 !important;
+      width: fit-content;
+    }
+
+    .gallery {
+      display: flex;
+      flex-direction: row;
+      gap: 1rem;
+      max-height: 0;
+      transition: max-height 0.5s ease-in-out;
+      margin-top: 10px;
+      overflow: hidden;
+      scrollbar-width: none; // Hide scrollbar in Firefox
+      -ms-overflow-style: none; // Hide scrollbar in IE and Edge
+      &::-webkit-scrollbar {
+        display: none; // Hide scrollbar in WebKit browsers
+      }
+
+      &.open {
+        max-height: $picture-height; // Adjust this value as needed
+        overflow-y: auto;
+        overflow-x: auto;
+      }
+
+      .gallery-item {
+        position: relative;
+        width: $picture-width;
+        height: $picture-height;
+        flex-shrink: 0;
+        overflow: hidden;
+
+        .image-skeleton {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+          background-size: 200% 100%;
+          animation: skeleton-loading 1.5s infinite;
+          border-radius: 8px;
+          z-index: 1;
+        }
+
+        .gallery-image {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          opacity: 0;
+          transition: opacity 0.3s ease;
+          z-index: 2;
+
+          &.loaded {
+            opacity: 1;
+          }
+        }
+      }
+    }
+
+    @keyframes skeleton-loading {
+      0% {
+        background-position: -200% 0;
+      }
+
+      100% {
+        background-position: 200% 0;
+      }
+    }
+
+    // Mobile responsive styles
+    @media (max-width: 768px) {
+      &.open {
+        max-height: 80dvh;
+      }
+
+      .gallery {
+        display: grid;
+        grid-template-columns: 1fr;
+        flex-direction: column;
+
+        &.open {
+          max-height: 900px;
+          overflow-y: auto;
+        }
+      }
+
+      .gallery-item {
+        position: relative;
+        width: 100% !important;
+        height: auto;
+        aspect-ratio: 1 / 1;
+        margin-bottom: 1rem;
+        flex-shrink: 0;
+        overflow: hidden;
+
+        .image-skeleton,
+        .gallery-image {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+
+        .image-skeleton {
+          background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+          background-size: 200% 100%;
+          animation: skeleton-loading 1.5s infinite;
+          border-radius: 8px;
+          z-index: 1;
+        }
+
+        .gallery-image {
+          opacity: 0;
+          transition: opacity 0.3s ease;
+          z-index: 2;
+
+          &.loaded {
+            opacity: 1;
+          }
+        }
+      }
     }
   }
 }
 
-.extra-info-gallery {
-  display: flex;
-  flex-flow: row wrap;
-  align-items: center;
-  width: 100%;
-  max-height: 100%;
-
-  & .gallery-picture {
-    width: calc(100% / 3 - 20px);
-    margin: 10px;
-    position: relative;
-    flex: 1;
-
-    & .gallery-image {
-      width: 100%;
-      height: auto;
-      object-fit: cover;
-      border-radius: 10px;
-    }
-  }
+#description-button {
+  position: absolute;
+  transform: translateY(30px);
+  animation: slideInUp 0.3s ease-out 0.3s forwards;
 }
 
-// https://stackoverflow.com/questions/61801579/vue-js-rendering-issues-with-safari
-.problematic-element {
-  min-width: 0%;
-  transform: translateZ(0);
-}
-
-@media screen and (max-width: 800px) {
-  .description__wrapper .description__content {
-    flex-flow: column;
-
-    & .description__paragraph {
-      max-width: 100%;
-    }
+@keyframes slideInUp {
+  from {
+    transform: translateY(30px);
   }
-
-  .extra-info-gallery {
-    flex-flow: column;
-    width: 100%;
-    max-height: 100%;
-
-    & .gallery-picture {
-      width: 100%;
-      margin: 10px 0;
-    }
+  to {
+    transform: translateY(0);
   }
 }
 </style>

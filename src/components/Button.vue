@@ -39,6 +39,7 @@ export default defineComponent({
   gap: 5px;
   padding: 10px;
   z-index: 100;
+  cursor: pointer;
 
   & > * {
     background: black;

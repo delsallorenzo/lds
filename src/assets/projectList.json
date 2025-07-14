@@ -26,8 +26,10 @@
       "linkText": "Full video",
       "extraInfo": {
         "pictures": [
-          "/images/projects/aphex-twin/image1.jpg",
-          "/images/projects/aphex-twin/image2.jpg"
+          "/images/projects/aphex-twin/bbb-01.jpg",
+          "/images/projects/aphex-twin/bbb-02.jpg",
+          "/images/projects/aphex-twin/bbb-03.jpg",
+          "/images/projects/aphex-twin/bbb-04.jpg"
         ]
       }
     },
@@ -39,20 +41,29 @@
       "linkText": "Instagram",
       "extraInfo": {
         "pictures": [
-          "/images/projects/what-if/image1.jpg",
-          "/images/projects/what-if/image2.jpg",
-          "/images/projects/what-if/image3.jpg"
+          "/images/projects/what-if/wi-01.jpg",
+          "/images/projects/what-if/wi-02.jpg",
+          "/images/projects/what-if/wi-03.jpg",
+          "/images/projects/what-if/wi-04.jpg",
+          "/images/projects/what-if/wi-05.jpg"
         ]
       }
     },
     {
       "title": "ugoxsempre",
       "desc": "Logo design and motion experiments that delve into the hyperpop dimension of ugoxsempre. The internal X in the name becomes the driving symbol in an attempt to establish itself as the primary iconographic element of the artist's visual identity.",
-      "media": "https://thumbsnap.com/i/Zo8BHbTT.mp4",
+      "media": "https://thumbsnap.com/i/Zo8BHbTT.mp4"
+    },
+    {
+      "title": "Club Culture Month",
+      "desc": "Club Culture Month celebrates the vibrant culture of clubbing with workshops, talks, dance classes, and club nights. My design strategy for the poster and social media contents utilized a typical club aesthetic with bold colors, rational typography, and geometric elements that reflected electronic music rhythms. The main graphic element features the CCM initials, created with a grid-based typography and circular shapes. The circle is an iconic symbol in the music world, commonly seen in speakers, DJ consoles and vinyls. For social media, I added motion graphics with a simple gravity-inspired reveal effect to enhance engagement.",
+      "media": "https://thumbsnap.com/i/gJGSFunM.mp4",
       "extraInfo": {
         "pictures": [
-          "/images/projects/ugoxsempre/image1.jpg",
-          "/images/projects/ugoxsempre/image2.jpg"
+          "/images/projects/ccm/ccm-01.jpg",
+          "/images/projects/ccm/ccm-02.jpg",
+          "/images/projects/ccm/ccm-03.jpg",
+          "/images/projects/ccm/ccm-04.jpg"
         ]
       }
     },
@@ -61,14 +72,7 @@
       "desc": "Title design and graphics for Santi Francesi's song competing at Sanremo 2024.",
       "media": "https://thumbsnap.com/i/8F5ZpuaM.mp4",
       "link": "https://www.youtube.com/watch?v=quFGreXfKKg&ab_channel=SANTIFRANCESIVEVO",
-      "linkText": "Full video",
-      "extraInfo": {
-        "pictures": [
-          "/images/projects/sanremo/image1.jpg",
-          "/images/projects/sanremo/image2.jpg",
-          "/images/projects/sanremo/image3.jpg"
-        ]
-      }
+      "linkText": "Full video"
     },
     {
       "title": "Goto",

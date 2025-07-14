@@ -1,0 +1,33 @@
+body {
+    margin: 0;
+    overflow: hidden;
+}
+
+html {
+    // interpolate-size: allow-keywords;
+}
+
+.description-button {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 50%;
+  height: 50px;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+}
+
+.more-info {
+  position: fixed;
+  top: 70px;
+  right: 0;
+  width: 50%;
+  height: 50px;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+}
+
+.picture-mock-box {
+  height: 100px;
+  background-color: lightgray;
+}
