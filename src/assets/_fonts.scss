@@ -1,0 +1,61 @@
+
+// Regular
+@font-face {
+  font-family: 'UncutSans';
+  src:
+    url('/uncutSans/UncutSans-Regular.woff2') format('woff2'),
+    url('/uncutSans/UncutSans-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+// Bold
+@font-face {
+  font-family: 'UncutSans';
+  src:
+    url('/uncutSans/UncutSans-Bold.woff2') format('woff2'),
+    url('/uncutSans/UncutSans-Bold.woff') format('woff');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+// Medium
+@font-face {
+  font-family: 'UncutSans';
+  src:
+    url('/uncutSans/UncutSans-Medium.woff2') format('woff2'),
+    url('/uncutSans/UncutSans-Medium.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+// Light
+@font-face {
+  font-family: 'UncutSans';
+  src:
+    url('/uncutSans/UncutSans-Light.woff2') format('woff2'),
+    url('/uncutSans/UncutSans-Light.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+// Add a utility class to use the font
+.uncut-sans {
+  font-family: 'UncutSans', sans-serif;
+}
+
+@font-face {
+  font-family: 'OverusedGrotesk';
+  font-weight: 500;
+  font-style: normal;
+  font-display: auto;
+  unicode-range: U+000-5FF;
+  src:
+    local('OverusedGrotesk'),
+    url('/fonts/OverusedGrotesk/OverusedGroteskSemiBold.woff2') format('woff2'),
+    url('/fonts/OverusedGrotesk/OverusedGroteskSemiBold.woff') format('woff');
+}

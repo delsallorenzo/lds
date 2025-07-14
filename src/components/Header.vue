@@ -6,26 +6,32 @@
         transform: store.headerStatus ? 'translateY(0)' : 'translateY(-100%)'
       }"
     >
-      <div class="title">
-        <p v-for="(line, index) in projectList.header.description" :key="index">
-          {{ line }}
-        </p>
-      </div>
-      <div class="canvas__container">
+      <!-- Canvas as background -->
+      <div class="canvas__background">
         <Canvas></Canvas>
       </div>
-      <div class="contacts__wrapper">
-        <div class="services__list">
-          <p>{{ projectList.header.services.title }}</p>
-          <p v-for="(line, index) in projectList.header.services.list" :key="index">
+      
+      <!-- Content overlay -->
+      <div class="content-overlay">
+        <div class="title">
+          <p v-for="(line, index) in projectList.header.description" :key="index">
             {{ line }}
           </p>
         </div>
-        <div class="contacts">
-          <LinkComponent :text="'Mail'" :link="'mailto:info@lorenzodelsal.com'" />
-          <LinkComponent :text="'Instagram'" :link="'https://www.instagram.com/lorenzodelsal/'" />
+        <div class="contacts__wrapper">
+          <div class="services__list">
+            <p>{{ projectList.header.services.title }}</p>
+            <p v-for="(line, index) in projectList.header.services.list" :key="index">
+              {{ line }}
+            </p>
+          </div>
+          <div class="contacts">
+            <LinkComponent :text="'Mail'" :link="'mailto:info@lorenzodelsal.com'" />
+            <LinkComponent :text="'Instagram'" :link="'https://www.instagram.com/lorenzodelsal/'" />
+          </div>
         </div>
       </div>
+      
       <div class="test">
         <ButtonComponent
           class="info-button"
@@ -65,8 +71,27 @@ export default defineComponent({
 <style lang="scss">
 $header-height: 50px;
 
-.canvas__container {
-  flex: 1;
+.canvas__background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.content-overlay {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  pointer-events: none;
+  
+  > * {
+    pointer-events: auto;
+  }
 }
 
 .info-container {
@@ -75,7 +100,7 @@ $header-height: 50px;
   left: 0;
   width: 100%;
   height: 100%;
-  max-height: 90vh;
+  max-height: 80vh;
 
   display: flex;
   flex-flow: column;

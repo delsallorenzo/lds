@@ -9,7 +9,10 @@
         @click="toggleDescription"
       />
     </div>
-    <div class="description-container" :class="{ open: descriptionStatus }">
+    <div class="description-container" :class="{ open: descriptionStatus }" 
+         @touchstart="preventTouchPropagation($event)"
+         @touchmove="preventTouchPropagation($event)"
+         @touchend="preventTouchPropagation($event)">
       <div class="description-text">
         <span class="description">{{ props.project.desc }}</span>
         <Link :text="props.project.linkText" :link="props.project.link" class="link" />
@@ -26,6 +29,9 @@
         :class="{ open: moreInfoOpen }"
         v-if="props.project.extraInfo"
         @wheel="scrollGallery($event)"
+        @touchstart="preventTouchPropagation($event)"
+        @touchmove="preventTouchPropagation($event)"
+        @touchend="preventTouchPropagation($event)"
       >
         <div class="gallery-item" v-for="(image, index) in images" :key="index">
           <div v-if="!image.loaded" class="image-skeleton"></div>
@@ -86,6 +92,12 @@ const scrollGallery = (event: WheelEvent) => {
   // event.preventDefault()
   const gallery = event.currentTarget as HTMLElement
   gallery.scrollLeft += event.deltaY
+}
+
+const preventTouchPropagation = (event: TouchEvent) => {
+  // Prevent touch events from bubbling up to parent components
+  // This stops the carousel touch handlers from interfering with gallery interactions
+  event.stopPropagation()
 }
 
 onMounted(() => {
@@ -153,6 +165,7 @@ $mobile-height: 300px;
       display: flex;
       flex-direction: row;
       align-items: flex-end;
+      gap: 10px;
       justify-content: space-between;
 
       .description {

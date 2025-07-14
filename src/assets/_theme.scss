@@ -1,0 +1,12 @@
+$light: #f0f0f0; // Change this to your preferred light background color
+$dark: #202020; // Change this to your preferred dark background color
+
+:root {
+  --primary-color: #{$light};
+  --secondary-color: #{$dark};
+}
+
+[data-theme='dark'] {
+  --primary-color: #{$dark};
+  --secondary-color: #{$light};
+}
