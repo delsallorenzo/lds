@@ -16,44 +16,43 @@ import projectList from '@/assets/projectList.json'
 const loaded = ref(false)
 
 onMounted(() => {
-  const assets = []
+  const assetPromises = []
   projectList.projects.forEach(project => {
     if (project.media) {
-      assets.push(project.media)
+      assetPromises.push(new Promise((resolve, reject) => {
+        const video = document.createElement('video')
+        video.src = project.media
+        video.oncanplaythrough = () => resolve()
+        video.onerror = () => {
+          console.warn(`Failed to load video: ${project.media}`);
+          resolve(); // Resolve even on error to not block the app
+        }
+      }))
     }
     if (project.extraInfo && project.extraInfo.pictures) {
-      assets.push(...project.extraInfo.pictures)
+      project.extraInfo.pictures.forEach(picture => {
+        assetPromises.push(new Promise((resolve, reject) => {
+          const img = new Image()
+          img.src = picture
+          img.onload = () => resolve()
+          img.onerror = () => {
+            console.warn(`Failed to load image: ${picture}`);
+            resolve(); // Resolve even on error
+          }
+        }))
+      })
     }
   })
 
-  const promises = assets.map(asset => {
-    return new Promise((resolve, reject) => {
-      if (asset.endsWith('.mp4')) {
-        const video = document.createElement('video')
-        video.src = asset
-        video.oncanplaythrough = () => resolve()
-        video.onerror = () => reject()
-      } else {
-        const img = new Image()
-        img.src = asset
-        img.onload = () => resolve()
-        img.onerror = () => reject()
-      }
-    })
-  })
+  const loadingPromise = Promise.all(assetPromises)
+  const timerPromise = new Promise(resolve => setTimeout(resolve, 3625))
 
-  if (promises.length > 0) {
-    Promise.all(promises)
-      .then(() => {
-        loaded.value = true
-      })
-      .catch(err => {
-        console.error("Failed to preload assets", err)
-        loaded.value = true // Show the site even if preloading fails
-      })
-  } else {
+  Promise.all([loadingPromise, timerPromise]).then(() => {
     loaded.value = true
-  }
+  }).catch(err => {
+      console.error("A critical error occurred during preloading.", err)
+      loaded.value = true
+  })
 })
 </script>
 

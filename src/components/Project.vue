@@ -1,7 +1,7 @@
 <template>
   <section class="project">
     <div class="video-container">
-      <video class="video" autoplay loop muted playsinline :src="props.project.media"></video>
+      <video ref="videoRef" class="video" autoplay loop muted playsinline :src="props.project.media"></video>
       <Button
         id="description-button"
         :textBox="props.project.title"
@@ -60,6 +60,8 @@ const props = defineProps<{
   project: Project
 }>()
 
+const videoRef = ref<HTMLVideoElement | null>(null)
+
 const descriptionStatus = computed(() => store.descriptionStatus)
 const moreInfoOpen = ref(false)
 
@@ -101,6 +103,9 @@ const preventTouchPropagation = (event: TouchEvent) => {
 }
 
 onMounted(() => {
+  if (videoRef.value) {
+    videoRef.value.playbackRate = 1.0
+  }
   // Initialize images from project's extraInfo if available
   if (props.project.extraInfo?.pictures) {
     images.value = props.project.extraInfo.pictures.map((picturePath, index) => ({
@@ -193,7 +198,6 @@ $mobile-height: 300px;
 
     .more-info-button {
       margin-top: 10px;
-      padding: 0 !important;
       width: fit-content;
     }
 
@@ -212,8 +216,8 @@ $mobile-height: 300px;
       }
 
       &.open {
-        max-height: $picture-height; // Adjust this value as needed
-        overflow-y: auto;
+        max-height: $picture-height;
+        overflow-y: hidden;
         overflow-x: auto;
       }
 
