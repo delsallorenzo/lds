@@ -1,13 +1,9 @@
 <template>
   <div class="box-wrapper">
     <div class="text-box">{{ textBox }}</div>
-    <div
-      class="x-icon"
-      :style="{
-        transform: opened ? 'rotate(45deg)' : 'rotate(0)'
-      }"
-    >
+    <div class="x-icon">
       <svg
+        :style="{ transform: opened ? 'rotate(45deg)' : 'rotate(0)' }"
         width="16"
         height="16"
         viewBox="0 0 16 16"
@@ -43,15 +39,15 @@ export default defineComponent({
 
   & > * {
     background: black;
-    border-radius: 100px;
   }
 
   & .text-box {
     display: flex;
     align-items: center;
     color: white;
-    padding: 0px 13px;
+    padding: 12px 18px;
     line-height: 0px;
+    border-radius: 8px;
   }
 }
 
@@ -59,6 +55,10 @@ export default defineComponent({
   display: flex;
   align-items: center;
   padding: 5px;
-  transition: transform 0.5s ease-in-out;
+  border-radius: 8px;
+}
+
+.x-icon svg {
+  transition: transform 0.5s cubic-bezier(0.1, 0.9, 0.2, 1);
 }
 </style>

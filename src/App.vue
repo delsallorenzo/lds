@@ -3,27 +3,58 @@
     <Header />
     <Carousel />
   </section>
-  <Landing v-else @animationDone="this.loaded = true" />
+  <Landing v-else />
 </template>
 
-<script>
+<script setup>
+import { ref, onMounted } from 'vue'
 import Carousel from '@/components/Carousel.vue'
 import Header from './components/Header.vue'
 import Landing from './components/Landing.vue'
+import projectList from '@/assets/projectList.json'
 
-export default {
-  name: 'App',
-  components: {
-    Header,
-    Carousel,
-    Landing
-  },
-  data() {
-    return {
-      loaded: false
+const loaded = ref(false)
+
+onMounted(() => {
+  const assets = []
+  projectList.projects.forEach(project => {
+    if (project.media) {
+      assets.push(project.media)
     }
+    if (project.extraInfo && project.extraInfo.pictures) {
+      assets.push(...project.extraInfo.pictures)
+    }
+  })
+
+  const promises = assets.map(asset => {
+    return new Promise((resolve, reject) => {
+      if (asset.endsWith('.mp4')) {
+        const video = document.createElement('video')
+        video.src = asset
+        video.oncanplaythrough = () => resolve()
+        video.onerror = () => reject()
+      } else {
+        const img = new Image()
+        img.src = asset
+        img.onload = () => resolve()
+        img.onerror = () => reject()
+      }
+    })
+  })
+
+  if (promises.length > 0) {
+    Promise.all(promises)
+      .then(() => {
+        loaded.value = true
+      })
+      .catch(err => {
+        console.error("Failed to preload assets", err)
+        loaded.value = true // Show the site even if preloading fails
+      })
+  } else {
+    loaded.value = true
   }
-}
+})
 </script>
 
 <style lang="scss">
@@ -63,12 +94,12 @@ body {
   &.dropFromTop {
     animation-name: drop-down-from-top;
     animation-duration: 0.5s;
-    animation-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
+    animation-timing-function: cubic-bezier(0.1, 0.9, 0.2, 1);
   }
   &.dropToBottom {
     animation-name: drop-down-to-bottom;
     animation-duration: 0.5s;
-    animation-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
+    animation-timing-function: cubic-bezier(0.1, 0.9, 0.2, 1);
   }
   @keyframes drop-down-from-top {
     from {

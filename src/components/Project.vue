@@ -18,7 +18,7 @@
         <Link :text="props.project.linkText" :link="props.project.link" class="link" />
       </div>
       <Button
-        textBox="More Info"
+        textBox="more"
         :opened="moreInfoOpen"
         @click="toggleMoreInfo"
         class="more-info-button"
@@ -113,8 +113,8 @@ onMounted(() => {
 </script>
 
 <style scoped lang="scss">
-$picture-width: 350px;
-$picture-height: 350px;
+$picture-width: 700px;
+$picture-height: 700px;
 
 $desktop-width: 500px;
 $desktop-height: 500px;
@@ -152,8 +152,8 @@ $mobile-height: 300px;
     padding: 0 10px;
     background: linear-gradient(to bottom, #f4f4f4, #e5e5e5);
     transition:
-      max-height 0.5s ease-in-out,
-      padding 0.5s ease-in-out;
+      max-height 0.5s cubic-bezier(0.1, 0.9, 0.2, 1),
+      padding 0.5s cubic-bezier(0.1, 0.9, 0.2, 1);
 
     &.open {
       max-height: 60dvh;
@@ -169,11 +169,11 @@ $mobile-height: 300px;
       justify-content: space-between;
 
       .description {
-        width: calc(50% - 10px);
+        width: calc(75% - 10px);
       }
 
       .link {
-        width: 50%;
+        width: 25%;
         justify-content: flex-end;
       }
 
@@ -200,9 +200,9 @@ $mobile-height: 300px;
     .gallery {
       display: flex;
       flex-direction: row;
-      gap: 1rem;
+      gap: 10px;
       max-height: 0;
-      transition: max-height 0.5s ease-in-out;
+      transition: max-height 0.5s cubic-bezier(0.1, 0.9, 0.2, 1);
       margin-top: 10px;
       overflow: hidden;
       scrollbar-width: none; // Hide scrollbar in Firefox
@@ -245,7 +245,7 @@ $mobile-height: 300px;
           height: 100%;
           object-fit: cover;
           opacity: 0;
-          transition: opacity 0.3s ease;
+          transition: opacity 0.3s cubic-bezier(0.1, 0.9, 0.2, 1);
           z-index: 2;
 
           &.loaded {
@@ -311,7 +311,7 @@ $mobile-height: 300px;
 
         .gallery-image {
           opacity: 0;
-          transition: opacity 0.3s ease;
+          transition: opacity 0.3s cubic-bezier(0.1, 0.9, 0.2, 1);
           z-index: 2;
 
           &.loaded {
@@ -326,7 +326,7 @@ $mobile-height: 300px;
 #description-button {
   position: absolute;
   transform: translateY(30px);
-  animation: slideInUp 0.3s ease-out 0.3s forwards;
+  animation: slideInUp 0.3s cubic-bezier(0.1, 0.9, 0.2, 1) 0.3s forwards;
 }
 
 @keyframes slideInUp {
