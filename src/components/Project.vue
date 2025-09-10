@@ -169,11 +169,11 @@ $mobile-height: 300px;
       justify-content: space-between;
 
       .description {
-        flex: 2;
+        width: calc(50% - 10px);
       }
 
       .link {
-        flex: 1;
+        width: 50%;
         justify-content: flex-end;
       }
 
