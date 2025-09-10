@@ -33,19 +33,18 @@ body {
   background: black;
 }
 @font-face {
-  font-family: 'OverusedGrotesk';
-  font-weight: 500;
+  font-family: 'UncutSans';
+  font-weight: 600;
   font-style: normal;
-  font-display: auto;
+  font-display: swap;
   unicode-range: U+000-5FF;
   src:
-    local('OverusedGrotesk'),
-    url('../fonts/OverusedGrotesk/OverusedGroteskSemiBold.woff2') format('woff2'),
-    url('../fonts/OverusedGrotesk/OverusedGroteskSemiBold.woff') format('woff');
+    url('/fonts/UncutSans/UncutSans-Semibold.woff2') format('woff2'),
+    url('/fonts/UncutSans/UncutSans-Semibold.woff') format('woff');
 }
 
 #app {
-  font: 500 16px 'OverusedGrotesk';
+  font: 600 16px 'UncutSans', Arial, sans-serif;
   letter-spacing: -0.25px;
   line-height: 16px;
   -webkit-font-smoothing: antialiased;

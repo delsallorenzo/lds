@@ -1,4 +1,3 @@
-
 // Regular
 @font-face {
   font-family: 'UncutSans';
@@ -43,19 +42,19 @@
   font-display: swap;
 }
 
+// Semibold
+@font-face {
+  font-family: 'UncutSans';
+  src: url('/fonts/UncutSans/UncutSans-Semibold.woff2') format('woff2'),
+       url('/fonts/UncutSans/UncutSans-Semibold.woff') format('woff');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
 // Add a utility class to use the font
 .uncut-sans {
   font-family: 'UncutSans', sans-serif;
 }
 
-@font-face {
-  font-family: 'OverusedGrotesk';
-  font-weight: 500;
-  font-style: normal;
-  font-display: auto;
-  unicode-range: U+000-5FF;
-  src:
-    local('OverusedGrotesk'),
-    url('/fonts/OverusedGrotesk/OverusedGroteskSemiBold.woff2') format('woff2'),
-    url('/fonts/OverusedGrotesk/OverusedGroteskSemiBold.woff') format('woff');
-}
+$main-font: 'UncutSans', Arial, sans-serif;
