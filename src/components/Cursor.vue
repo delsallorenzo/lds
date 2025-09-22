@@ -20,7 +20,7 @@ export default defineComponent({
 <style scoped>
 .cursor__label {
   position: absolute;
-  font-size: 16px;
+  font-size: 15px;
   color: black;
   pointer-events: none;
   transform: translate(-50%, -50%);

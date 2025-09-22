@@ -74,12 +74,13 @@ body {
 }
 
 #app {
-  font: 600 16px 'UncutSans', Arial, sans-serif;
+  font: 600 15px 'UncutSans', Arial, sans-serif;
   letter-spacing: -0.25px;
-  line-height: 16px;
+  line-height: 15px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
+  font-feature-settings: "ss02" on, "ss05" on, "ss06" on, "ss08" on;
 }
 
 .curtain {

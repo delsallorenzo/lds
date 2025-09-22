@@ -55,6 +55,7 @@
 // Add a utility class to use the font
 .uncut-sans {
   font-family: 'UncutSans', sans-serif;
+  font-feature-settings: "ss02" on, "ss05" on, "ss06" on, "ss08" on;
 }
 
 $main-font: 'UncutSans', Arial, sans-serif;

@@ -1,5 +1,5 @@
 <template>
-  <div class="box-wrapper">
+  <div class="box-wrapper" @click="$emit('click')">
     <div class="text-box">{{ textBox }}</div>
     <div class="x-icon">
       <svg
@@ -25,7 +25,8 @@ export default defineComponent({
   props: {
     textBox: { type: String, required: true },
     opened: { type: Boolean, default: false }
-  }
+  },
+  emits: ['click']
 })
 </script>
 
@@ -45,8 +46,8 @@ export default defineComponent({
     display: flex;
     align-items: center;
     color: white;
-    padding: 12px 18px;
-    line-height: 8px;
+    padding: 9px 18px 10px 18px;
+    line-height: 10px;
     border-radius: 100px;
   }
 }
@@ -54,11 +55,11 @@ export default defineComponent({
 .x-icon {
   display: flex;
   align-items: center;
-  padding: 5px;
-  border-radius: 0;
+  padding: 5px 6px;
+  border-radius: 100px;
 }
 
 .x-icon svg {
-  transition: transform 0.5s cubic-bezier(0.1, 0.9, 0.2, 1);
+  transition: transform 0.75s cubic-bezier(0.1, 0.9, 0.2, 1);
 }
 </style>

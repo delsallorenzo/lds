@@ -18,7 +18,7 @@
         <Link :text="props.project.linkText" :link="props.project.link" class="link" />
       </div>
       <Button
-        textBox="more"
+        textBox="More"
         :opened="moreInfoOpen"
         @click="toggleMoreInfo"
         class="more-info-button"
@@ -154,22 +154,22 @@ $mobile-height: 300px;
     display: flex;
     flex-direction: column;
     flex-shrink: 0;
-    padding: 0 10px;
     background: linear-gradient(to bottom, #f4f4f4, #e5e5e5);
     transition:
       max-height 0.5s cubic-bezier(0.1, 0.9, 0.2, 1),
       padding 0.5s cubic-bezier(0.1, 0.9, 0.2, 1);
 
     &.open {
-      max-height: 60dvh;
-      padding: 10px;
+      max-height: 80dvh;
       overflow-y: auto;
+      gap: 10px;
     }
 
     .description-text {
       display: flex;
       flex-direction: row;
       align-items: flex-end;
+      padding: 10px;
       gap: 10px;
       justify-content: space-between;
 
@@ -186,6 +186,10 @@ $mobile-height: 300px;
         flex-direction: column;
         align-items: flex-start;
 
+        .description {
+        width: 100%;
+      }
+
         .description-title {
           font-size: 1.25rem;
         }
@@ -193,24 +197,34 @@ $mobile-height: 300px;
         .description-meta {
           font-size: 0.875rem;
         }
+
+        .link {
+        width: fit-content;
+        justify-content: flex-start;
+      }
       }
     }
 
     .more-info-button {
-      margin-top: 10px;
+      margin: 0px 10px 0px 10px;
       width: fit-content;
+      padding: 0;
+
+      &.open {
+        margin-bottom: 10px;
+      }
     }
 
     .gallery {
       display: flex;
       flex-direction: row;
+      margin: 0px 10px 0px 10px;
       gap: 10px;
       max-height: 0;
-      transition: max-height 0.5s cubic-bezier(0.1, 0.9, 0.2, 1);
-      margin-top: 10px;
       overflow: hidden;
       scrollbar-width: none; // Hide scrollbar in Firefox
       -ms-overflow-style: none; // Hide scrollbar in IE and Edge
+      transition: max-height 0.5s cubic-bezier(0.1, 0.9, 0.2, 1);
       &::-webkit-scrollbar {
         display: none; // Hide scrollbar in WebKit browsers
       }
@@ -219,12 +233,12 @@ $mobile-height: 300px;
         max-height: $picture-height;
         overflow-y: hidden;
         overflow-x: auto;
+        padding-bottom: 10px;
       }
 
       .gallery-item {
         position: relative;
-        width: $picture-width;
-        height: $picture-height;
+        height: 100%;
         flex-shrink: 0;
         overflow: hidden;
 
@@ -242,10 +256,9 @@ $mobile-height: 300px;
         }
 
         .gallery-image {
-          position: absolute;
+          position: relative;
           top: 0;
           left: 0;
-          width: 100%;
           height: 100%;
           object-fit: cover;
           opacity: 0;
@@ -276,28 +289,28 @@ $mobile-height: 300px;
       }
 
       .gallery {
-        display: grid;
+        display: flex;
         grid-template-columns: 1fr;
         flex-direction: column;
 
         &.open {
-          max-height: 900px;
+          max-height: 100%;
           overflow-y: auto;
         }
       }
 
       .gallery-item {
         position: relative;
-        width: 100% !important;
-        height: auto;
+        height: 100%;
+        padding-top: 0px;
+        padding-bottom: 0px;
         aspect-ratio: 1 / 1;
-        margin-bottom: 1rem;
         flex-shrink: 0;
         overflow: hidden;
 
         .image-skeleton,
         .gallery-image {
-          position: absolute;
+          position: relative;
           top: 0;
           left: 0;
           width: 100%;
