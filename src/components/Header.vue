@@ -109,7 +109,7 @@ $header-height: 50px;
   color: #000;
   background-color: rgb(220, 220, 220);
   z-index: 99;
-  transition: transform 0.5s cubic-bezier(1, 0, 0, 0.9);
+  transition: transform 0.75s cubic-bezier(0.15, 0.85, 0.25, 0.95);
 
   .info-button {
     width: max-content;

@@ -35,7 +35,7 @@ export default defineComponent({
 .right-arrow {
   padding-left: 5px;
   display: none;
-  transition: all 0.3s ease;
+  transition: transform 0.75s cubic-bezier(0.15, 0.85, 0.25, 0.95);
 }
 
 .link__wrapper:hover .right-arrow {

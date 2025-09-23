@@ -9,7 +9,7 @@
         @click="toggleDescription"
       />
     </div>
-    <div class="description-container" :class="{ open: descriptionStatus }" 
+    <div ref="descriptionContainer" class="description-container" :class="{ open: descriptionStatus }" 
          @touchstart="preventTouchPropagation($event)"
          @touchmove="preventTouchPropagation($event)"
          @touchend="preventTouchPropagation($event)">
@@ -25,10 +25,10 @@
         v-show="props.project.extraInfo"
       />
       <div
+        ref="galleryContainer"
         class="gallery"
         :class="{ open: moreInfoOpen }"
         v-if="props.project.extraInfo"
-        @wheel="scrollGallery($event)"
         @touchstart="preventTouchPropagation($event)"
         @touchmove="preventTouchPropagation($event)"
         @touchend="preventTouchPropagation($event)"
@@ -52,18 +52,58 @@
 <script lang="ts" setup>
 import { Project } from '@/models/project.model'
 import { store } from '@/store.js'
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, ref, watch, onUnmounted } from 'vue'
 import Button from './Button.vue'
 import Link from './Link.vue'
+import Lenis from 'lenis'
 
 const props = defineProps<{
   project: Project
 }>()
 
 const videoRef = ref<HTMLVideoElement | null>(null)
+const descriptionContainer = ref<HTMLElement | null>(null)
+const galleryContainer = ref<HTMLElement | null>(null)
 
 const descriptionStatus = computed(() => store.descriptionStatus)
 const moreInfoOpen = ref(false)
+
+let descriptionLenis: Lenis | null = null
+let galleryLenis: Lenis | null = null
+let rafHandle: number;
+
+function raf(time: number) {
+  descriptionLenis?.raf(time)
+  galleryLenis?.raf(time)
+  rafHandle = requestAnimationFrame(raf)
+}
+
+watch(descriptionStatus, (newValue) => {
+  if (newValue && descriptionContainer.value && !descriptionLenis) {
+    descriptionLenis = new Lenis({
+      wrapper: descriptionContainer.value,
+    })
+  } else if (!newValue && descriptionLenis) {
+    setTimeout(() => {
+      descriptionLenis?.destroy()
+      descriptionLenis = null
+    }, 800) // Wait for the closing animation to finish
+  }
+})
+
+watch(moreInfoOpen, (newValue) => {
+  if (newValue && galleryContainer.value && !galleryLenis) {
+    galleryLenis = new Lenis({
+      wrapper: galleryContainer.value,
+      orientation: 'horizontal',
+    })
+  } else if (!newValue && galleryLenis) {
+    setTimeout(() => {
+      galleryLenis?.destroy()
+      galleryLenis = null
+    }, 800) // Wait for the closing animation to finish
+  }
+})
 
 const toggleDescription = () => {
   store.toggleDescription()
@@ -89,13 +129,6 @@ const onImageError = (index: number) => {
   images.value[index].loaded = true // Hide skeleton even on error
 }
 
-const scrollGallery = (event: WheelEvent) => {
-  if (!moreInfoOpen.value) return // Only scroll if gallery is open
-  // event.preventDefault()
-  const gallery = event.currentTarget as HTMLElement
-  gallery.scrollLeft += event.deltaY
-}
-
 const preventTouchPropagation = (event: TouchEvent) => {
   // Prevent touch events from bubbling up to parent components
   // This stops the carousel touch handlers from interfering with gallery interactions
@@ -114,6 +147,13 @@ onMounted(() => {
       loaded: false
     }))
   }
+  rafHandle = requestAnimationFrame(raf)
+})
+
+onUnmounted(() => {
+  descriptionLenis?.destroy()
+  galleryLenis?.destroy()
+  cancelAnimationFrame(rafHandle)
 })
 </script>
 
@@ -156,8 +196,8 @@ $mobile-height: 300px;
     flex-shrink: 0;
     background: linear-gradient(to bottom, #f4f4f4, #e5e5e5);
     transition:
-      max-height 0.5s cubic-bezier(0.1, 0.9, 0.2, 1),
-      padding 0.5s cubic-bezier(0.1, 0.9, 0.2, 1);
+      max-height 0.75s cubic-bezier(0.15, 0.85, 0.25, 0.95),
+      padding 0.75s cubic-bezier(0.15, 0.85, 0.25, 0.95);
 
     &.open {
       max-height: 80dvh;
@@ -224,7 +264,7 @@ $mobile-height: 300px;
       overflow: hidden;
       scrollbar-width: none; // Hide scrollbar in Firefox
       -ms-overflow-style: none; // Hide scrollbar in IE and Edge
-      transition: max-height 0.5s cubic-bezier(0.1, 0.9, 0.2, 1);
+      transition: max-height 0.8s cubic-bezier(0.1, 0.9, 0.2, 1);
       &::-webkit-scrollbar {
         display: none; // Hide scrollbar in WebKit browsers
       }

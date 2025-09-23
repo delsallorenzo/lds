@@ -60,6 +60,6 @@ export default defineComponent({
 }
 
 .x-icon svg {
-  transition: transform 0.75s cubic-bezier(0.1, 0.9, 0.2, 1);
+  transition: transform 0.75s cubic-bezier(0.15, 0.85, 0.25, 0.95);
 }
 </style>

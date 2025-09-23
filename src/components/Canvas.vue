@@ -21,6 +21,8 @@ export default defineComponent({
         let obj
         let angleX = 0
         let angleY = 0
+        let targetAngleX = 0
+        let targetAngleY = 0
 
         let beta = 0
         let gamma = 0
@@ -42,13 +44,17 @@ export default defineComponent({
 
           // If on mobile, use gyroscope data for rotation
           if (window.innerWidth <= 900) {
-            angleX = p.map(beta + betaOffset, -90, 90, 0, 90)
-            angleY = p.map(gamma + gammaOffset, -90, 90, 0, 90)
+            targetAngleX = p.map(beta + betaOffset, -90, 90, 0, 90)
+            targetAngleY = p.map(gamma + gammaOffset, -90, 90, 0, 90)
           } else {
             // Otherwise, use mouse for rotation
-            angleX = p.map(p.mouseY, 0, p.height, -maxAngle, maxAngle)
-            angleY = p.map(p.mouseX, 0, p.width, -maxAngle, maxAngle)
+            targetAngleX = p.map(p.mouseY, 0, p.height, -maxAngle, maxAngle)
+            targetAngleY = p.map(p.mouseX, 0, p.width, -maxAngle, maxAngle)
           }
+
+          // Apply easing/lerp to the rotation
+          angleX = p.lerp(angleX, targetAngleX, 0.05)
+          angleY = p.lerp(angleY, targetAngleY, 0.05)
 
           p.rotateX(angleX)
           p.rotateY(angleY)
