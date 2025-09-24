@@ -16,9 +16,10 @@ import projectList from '@/assets/projectList.json'
 const loaded = ref(false)
 
 onMounted(() => {
+  const isMobile = /Mobi/i.test(window.navigator.userAgent)
   const assetPromises = []
   projectList.projects.forEach(project => {
-    if (project.media) {
+    if (project.media && !isMobile) {
       assetPromises.push(new Promise((resolve, reject) => {
         const video = document.createElement('video')
         video.src = project.media
