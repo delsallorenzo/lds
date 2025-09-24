@@ -9,7 +9,7 @@
     "preview": "npm run build && wrangler pages dev ./dist",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
     "format": "prettier --write src/",
-    "deploy": "npm run build && wrangler pages deploy ./dist"
+    "deploy": "npm run build && wrangler pages deploy ./dist --project-name lds"
   },
   "dependencies": {
     "core-js": "^3.8.3",
