@@ -3,7 +3,7 @@
     <Header />
     <Carousel />
   </section>
-  <Landing v-else />
+  <Landing v-else @animationDone="onAnimationDone" />
 </template>
 
 <script setup>
@@ -14,6 +14,12 @@ import Landing from './components/Landing.vue'
 import projectList from '@/assets/projectList.json'
 
 const loaded = ref(false)
+let resolveAnimation = null
+const animationPromise = new Promise(resolve => { resolveAnimation = resolve })
+
+const onAnimationDone = () => {
+  if (resolveAnimation) resolveAnimation()
+}
 
 onMounted(() => {
   const isMobile = /Mobi/i.test(window.navigator.userAgent)
@@ -26,7 +32,7 @@ onMounted(() => {
         video.oncanplaythrough = () => resolve()
         video.onerror = () => {
           console.warn(`Failed to load video: ${project.media}`);
-          resolve(); // Resolve even on error to not block the app
+          resolve()
         }
       }))
     }
@@ -38,21 +44,18 @@ onMounted(() => {
           img.onload = () => resolve()
           img.onerror = () => {
             console.warn(`Failed to load image: ${picture}`);
-            resolve(); // Resolve even on error
+            resolve()
           }
         }))
       })
     }
   })
 
-  const loadingPromise = Promise.all(assetPromises)
-  const timerPromise = new Promise(resolve => setTimeout(resolve, 3625))
-
-  Promise.all([loadingPromise, timerPromise]).then(() => {
+  Promise.all([...assetPromises, animationPromise]).then(() => {
     loaded.value = true
   }).catch(err => {
-      console.error("A critical error occurred during preloading.", err)
-      loaded.value = true
+    console.error("A critical error occurred during preloading.", err)
+    loaded.value = true
   })
 })
 </script>
@@ -75,9 +78,9 @@ body {
 }
 
 #app {
-  font: 600 15px 'UncutSans', Arial, sans-serif;
+  font: 600 13px 'UncutSans', Arial, sans-serif;
   letter-spacing: -0.25px;
-  line-height: 15px;
+  line-height: 1.1;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;

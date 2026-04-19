@@ -56,8 +56,8 @@ export default defineComponent({
   background: black;
 
   & .animation__wrapper {
-    max-width: 20%;
-    max-height: 20%;
+    max-width: 17%;
+    max-height: 17%;
     filter: invert(1) blur(5px);
   }
 }

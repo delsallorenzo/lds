@@ -9,40 +9,52 @@
         @click="toggleDescription"
       />
     </div>
-    <div ref="descriptionContainer" class="description-container" :class="{ open: descriptionStatus }" 
-         @touchstart="preventTouchPropagation($event)"
-         @touchmove="preventTouchPropagation($event)"
-         @touchend="preventTouchPropagation($event)">
-      <div class="description-text">
-        <span class="description">{{ props.project.desc }}</span>
-        <Link :text="props.project.linkText" :link="props.project.link" class="link" />
-      </div>
-      <Button
-        textBox="More"
-        :opened="moreInfoOpen"
-        @click="toggleMoreInfo"
-        class="more-info-button"
-        v-show="props.project.extraInfo"
-      />
-      <div
-        ref="galleryContainer"
-        class="gallery"
-        :class="{ open: moreInfoOpen }"
-        v-if="props.project.extraInfo"
-        @touchstart="preventTouchPropagation($event)"
-        @touchmove="preventTouchPropagation($event)"
-        @touchend="preventTouchPropagation($event)"
-      >
-        <div class="gallery-item" v-for="(image, index) in images" :key="index">
-          <div v-if="!image.loaded" class="image-skeleton"></div>
-          <img
-            class="gallery-image"
-            :class="{ loaded: image.loaded }"
-            :src="image.src"
-            :alt="image.alt"
-            @load="onImageLoad(index)"
-            @error="onImageError(index)"
-          />
+    <div class="description-container" :class="{ open: descriptionStatus }">
+      <div ref="descriptionContainer" class="description-scroll"
+           @touchstart="preventTouchPropagation($event)"
+           @touchmove="preventTouchPropagation($event)"
+           @touchend="preventTouchPropagation($event)">
+        <div class="description-text">
+          <span class="description">{{ props.project.desc }}</span>
+          <Link :text="props.project.linkText" :link="props.project.link" class="link" />
+        </div>
+        <Button
+          textBox="More"
+          :opened="moreInfoOpen"
+          @click="toggleMoreInfo"
+          class="more-info-button"
+          v-show="props.project.extraInfo"
+        />
+        <div
+          class="gallery"
+          :class="{ open: moreInfoOpen }"
+          v-if="props.project.extraInfo"
+        >
+          <div
+            ref="galleryContainer"
+            class="gallery-scroll"
+            @mousedown="onGalleryMouseDown"
+            @mousemove="onGalleryMouseMove"
+            @mouseup="onGalleryMouseUp"
+            @mouseleave="onGalleryMouseUp"
+            @dragstart.prevent
+            @touchstart="preventTouchPropagation($event)"
+            @touchmove="preventTouchPropagation($event)"
+            @touchend="preventTouchPropagation($event)"
+          >
+            <div class="gallery-item" v-for="(image, index) in images" :key="index">
+              <div v-if="!image.loaded" class="image-skeleton"></div>
+              <img
+                class="gallery-image"
+                :class="{ loaded: image.loaded }"
+                :src="image.src"
+                :alt="image.alt"
+                draggable="false"
+                @load="onImageLoad(index)"
+                @error="onImageError(index)"
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -64,6 +76,43 @@ const props = defineProps<{
 const videoRef = ref<HTMLVideoElement | null>(null)
 const descriptionContainer = ref<HTMLElement | null>(null)
 const galleryContainer = ref<HTMLElement | null>(null)
+
+let isDraggingGallery = false
+let galleryDragStartX = 0
+let galleryScrollStart = 0
+let galleryVelocity = 0
+let galleryLastX = 0
+
+const onGalleryMouseDown = (e: MouseEvent) => {
+  if (!galleryContainer.value) return
+  galleryLenis?.stop()
+  isDraggingGallery = true
+  galleryDragStartX = e.pageX
+  galleryLastX = e.pageX
+  galleryScrollStart = galleryContainer.value.scrollLeft
+  galleryVelocity = 0
+  galleryContainer.value.style.cursor = 'grabbing'
+  galleryContainer.value.style.userSelect = 'none'
+}
+
+const onGalleryMouseMove = (e: MouseEvent) => {
+  if (!isDraggingGallery || !galleryContainer.value) return
+  galleryVelocity = e.pageX - galleryLastX
+  galleryLastX = e.pageX
+  galleryContainer.value.scrollLeft = galleryScrollStart - (e.pageX - galleryDragStartX)
+}
+
+const onGalleryMouseUp = () => {
+  if (!galleryContainer.value) return
+  isDraggingGallery = false
+  galleryContainer.value.style.cursor = 'grab'
+  galleryContainer.value.style.userSelect = ''
+  galleryLenis?.start()
+  if (Math.abs(galleryVelocity) > 0.5) {
+    const target = galleryContainer.value.scrollLeft - galleryVelocity * 15
+    galleryLenis?.scrollTo(target, { duration: 1 })
+  }
+}
 
 const descriptionStatus = computed(() => store.descriptionStatus)
 const moreInfoOpen = ref(false)
@@ -188,22 +237,25 @@ $mobile-height: 300px;
   }
 
   .description-container {
-    height: auto;
-    max-height: 0;
+    display: grid;
+    grid-template-rows: 0fr;
     overflow: hidden;
-    display: flex;
-    flex-direction: column;
     flex-shrink: 0;
     background: linear-gradient(to bottom, #f4f4f4, #e5e5e5);
-    transition:
-      max-height 0.75s cubic-bezier(0.15, 0.85, 0.25, 0.95),
-      padding 0.75s cubic-bezier(0.15, 0.85, 0.25, 0.95);
+    transition: grid-template-rows 0.8s cubic-bezier(1, 0, 0, 1);
 
     &.open {
-      max-height: 80dvh;
-      overflow-y: auto;
-      gap: 10px;
+      grid-template-rows: 1fr;
     }
+  }
+
+  .description-scroll {
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    max-height: 80dvh;
+    overflow-y: auto;
+    gap: 10px;
 
     .description-text {
       display: flex;
@@ -227,8 +279,8 @@ $mobile-height: 300px;
         align-items: flex-start;
 
         .description {
-        width: 100%;
-      }
+          width: 100%;
+        }
 
         .description-title {
           font-size: 1.25rem;
@@ -239,9 +291,9 @@ $mobile-height: 300px;
         }
 
         .link {
-        width: fit-content;
-        justify-content: flex-start;
-      }
+          width: fit-content;
+          justify-content: flex-start;
+        }
       }
     }
 
@@ -249,64 +301,114 @@ $mobile-height: 300px;
       margin: 0px 10px 0px 10px;
       width: fit-content;
       padding: 0;
-
-      &.open {
-        margin-bottom: 10px;
-      }
     }
 
     .gallery {
-      display: flex;
-      flex-direction: row;
-      margin: 0px 10px 0px 10px;
-      gap: 10px;
-      max-height: 0;
-      overflow: hidden;
-      scrollbar-width: none; // Hide scrollbar in Firefox
-      -ms-overflow-style: none; // Hide scrollbar in IE and Edge
-      transition: max-height 0.8s cubic-bezier(0.1, 0.9, 0.2, 1);
-      &::-webkit-scrollbar {
-        display: none; // Hide scrollbar in WebKit browsers
-      }
+      display: grid;
+      grid-template-rows: 0fr;
+      overflow: clip;
+      margin: 0 10px;
+      transition: grid-template-rows 0.8s cubic-bezier(1, 0, 0, 1);
 
       &.open {
-        max-height: $picture-height;
-        overflow-y: hidden;
-        overflow-x: auto;
-        padding-bottom: 10px;
+        grid-template-rows: 1fr;
+
+        .gallery-scroll {
+          padding-bottom: 10px;
+        }
       }
 
-      .gallery-item {
-        position: relative;
-        height: 100%;
-        flex-shrink: 0;
-        overflow: hidden;
+      .gallery-scroll {
+        min-height: 0;
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+        max-height: calc(80dvh - 160px);
+        overflow-x: auto;
+        overflow-y: hidden;
+        padding-bottom: 0;
+        cursor: grab;
+        transition: padding-bottom 0.8s cubic-bezier(1, 0, 0, 1);
+        scrollbar-width: none;
+        -ms-overflow-style: none;
 
-        .image-skeleton {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-          background-size: 200% 100%;
-          animation: skeleton-loading 1.5s infinite;
-          border-radius: 8px;
-          z-index: 1;
+        &::-webkit-scrollbar {
+          display: none;
         }
 
-        .gallery-image {
+        .gallery-item {
           position: relative;
-          top: 0;
-          left: 0;
-          height: 100%;
-          object-fit: cover;
-          opacity: 0;
-          transition: opacity 0.3s cubic-bezier(0.1, 0.9, 0.2, 1);
-          z-index: 2;
+          height: calc(80dvh - 160px);
+          flex-shrink: 0;
+          overflow: hidden;
 
-          &.loaded {
-            opacity: 1;
+          .image-skeleton {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: skeleton-loading 1.5s infinite;
+            border-radius: 8px;
+            z-index: 1;
+          }
+
+          .gallery-image {
+            position: relative;
+            top: 0;
+            left: 0;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 0.8s cubic-bezier(1, 0, 0, 1);
+            z-index: 2;
+
+            &.loaded {
+              opacity: 1;
+            }
+          }
+        }
+
+        @media (max-width: 768px) {
+          flex-direction: column;
+          overflow-x: hidden;
+          overflow-y: auto;
+          max-height: none;
+
+          .gallery-item {
+            height: auto;
+            width: 100%;
+            aspect-ratio: 1 / 1;
+
+            .image-skeleton,
+            .gallery-image {
+              position: relative;
+              top: 0;
+              left: 0;
+              width: 100%;
+              height: 100%;
+              object-fit: cover;
+            }
+
+            .image-skeleton {
+              background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+              background-size: 200% 100%;
+              animation: skeleton-loading 1.5s infinite;
+              border-radius: 8px;
+              z-index: 1;
+            }
+
+            .gallery-image {
+              opacity: 0;
+              transition: opacity 0.8s cubic-bezier(1, 0, 0, 1);
+              z-index: 2;
+
+              &.loaded {
+                opacity: 1;
+              }
+            }
           }
         }
       }
@@ -321,77 +423,10 @@ $mobile-height: 300px;
         background-position: 200% 0;
       }
     }
-
-    // Mobile responsive styles
-    @media (max-width: 768px) {
-      &.open {
-        max-height: 80dvh;
-      }
-
-      .gallery {
-        display: flex;
-        grid-template-columns: 1fr;
-        flex-direction: column;
-
-        &.open {
-          max-height: 100%;
-          overflow-y: auto;
-        }
-      }
-
-      .gallery-item {
-        position: relative;
-        height: 100%;
-        padding-top: 0px;
-        padding-bottom: 0px;
-        aspect-ratio: 1 / 1;
-        flex-shrink: 0;
-        overflow: hidden;
-
-        .image-skeleton,
-        .gallery-image {
-          position: relative;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-        }
-
-        .image-skeleton {
-          background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-          background-size: 200% 100%;
-          animation: skeleton-loading 1.5s infinite;
-          border-radius: 8px;
-          z-index: 1;
-        }
-
-        .gallery-image {
-          opacity: 0;
-          transition: opacity 0.3s cubic-bezier(0.1, 0.9, 0.2, 1);
-          z-index: 2;
-
-          &.loaded {
-            opacity: 1;
-          }
-        }
-      }
-    }
   }
 }
 
 #description-button {
   position: absolute;
-  transform: translateY(30px);
-  animation: slideInUp 0.3s cubic-bezier(0.1, 0.9, 0.2, 1) 0.3s forwards;
-}
-
-@keyframes slideInUp {
-  from {
-    transform: translateY(30px);
-  }
-  to {
-    transform: translateY(0);
-  }
 }
 </style>
