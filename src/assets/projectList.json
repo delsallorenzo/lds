@@ -1,6 +1,35 @@
 {
   "projects": [
     {
+      "title": "Club Culture Month",
+      "desc": "Club Culture Month celebrates the vibrant culture of clubbing with workshops, talks, dance classes, and club nights. My design strategy for the poster and social media contents utilized a typical club aesthetic with bold colors, rational typography, and geometric elements that reflected electronic music rhythms. The main graphic element features the CCM initials, created with a grid-based typography and circular shapes. The circle is an iconic symbol in the music world, commonly seen in speakers, DJ consoles and vinyls. For social media, I added motion graphics with a simple gravity-inspired reveal effect to enhance engagement.",
+      "media": "https://thumbsnap.com/i/gJGSFunM.mp4",
+      "extraInfo": {
+        "pictures": [
+          "/images/projects/ccm/ccm-01.jpg",
+          "/images/projects/ccm/ccm-02.jpg",
+          "/images/projects/ccm/ccm-03.jpg",
+          "/images/projects/ccm/ccm-04.jpg"
+        ]
+      }
+    },
+    {
+      "title": "What If Events",
+      "desc": "What If Events is an association dedicated to cultural and social promotion in the city of Padua. Comprising a group of volunteers under 30, driven by the desire to create welcoming and dynamic social networks and performance spaces. The association's activities include organizing events and initiatives, complemented by the use of social media channels. Through these channels, an event guide has been created for the daily publication of reminders about ongoing events.",
+      "media": "https://thumbsnap.com/i/NAAQskie.mp4",
+      "link": "https://www.instagram.com/whatif.events/",
+      "linkText": "Instagram",
+      "extraInfo": {
+        "pictures": [
+          "/images/projects/what-if/wi-01.jpg",
+          "/images/projects/what-if/wi-02.jpg",
+          "/images/projects/what-if/wi-03.jpg",
+          "/images/projects/what-if/wi-04.jpg",
+          "/images/projects/what-if/wi-05.jpg"
+        ]
+      }
+    },
+    {
       "title": "Club Recordo",
       "desc": "Club Recordo is a project born within the realm of music with the aim of offering people the opportunity to access a safe and inclusive space (both physical and virtual) where they can experience music as the absolute protagonist, rather than merely a backdrop. In a fast-paced world where sounds abound, often overwhelming, and where one scarcely finds time to truly listen, Club Recordo seeks to educate those who desire it in mindful and comprehensive listening.",
       "media": "https://thumbsnap.com/i/efsYumJc.mp4",
@@ -34,40 +63,6 @@
       }
     },
     {
-      "title": "What If",
-      "desc": "What If is an association dedicated to cultural and social promotion in the city of Padua. Comprising a group of volunteers under 30, driven by the desire to create welcoming and dynamic social networks and performance spaces. The association's activities include organizing events and initiatives, complemented by the use of social media channels. Through these channels, an event guide has been created for the daily publication of reminders about ongoing events.",
-      "media": "https://thumbsnap.com/i/NAAQskie.mp4",
-      "link": "https://www.instagram.com/whatif.events/",
-      "linkText": "Instagram",
-      "extraInfo": {
-        "pictures": [
-          "/images/projects/what-if/wi-01.jpg",
-          "/images/projects/what-if/wi-02.jpg",
-          "/images/projects/what-if/wi-03.jpg",
-          "/images/projects/what-if/wi-04.jpg",
-          "/images/projects/what-if/wi-05.jpg"
-        ]
-      }
-    },
-    {
-      "title": "ugoxsempre",
-      "desc": "Logo design and motion experiments that delve into the hyperpop dimension of ugoxsempre. The internal X in the name becomes the driving symbol in an attempt to establish itself as the primary iconographic element of the artist's visual identity.",
-      "media": "https://thumbsnap.com/i/Zo8BHbTT.mp4"
-    },
-    {
-      "title": "Club Culture Month",
-      "desc": "Club Culture Month celebrates the vibrant culture of clubbing with workshops, talks, dance classes, and club nights. My design strategy for the poster and social media contents utilized a typical club aesthetic with bold colors, rational typography, and geometric elements that reflected electronic music rhythms. The main graphic element features the CCM initials, created with a grid-based typography and circular shapes. The circle is an iconic symbol in the music world, commonly seen in speakers, DJ consoles and vinyls. For social media, I added motion graphics with a simple gravity-inspired reveal effect to enhance engagement.",
-      "media": "https://thumbsnap.com/i/gJGSFunM.mp4",
-      "extraInfo": {
-        "pictures": [
-          "/images/projects/ccm/ccm-01.jpg",
-          "/images/projects/ccm/ccm-02.jpg",
-          "/images/projects/ccm/ccm-03.jpg",
-          "/images/projects/ccm/ccm-04.jpg"
-        ]
-      }
-    },
-    {
       "title": "L'Amore In Bocca",
       "desc": "Title design and graphics for Santi Francesi's song competing at Sanremo 2024.",
       "media": "https://thumbsnap.com/i/8F5ZpuaM.mp4",
@@ -80,23 +75,22 @@
       "media": "https://thumbsnap.com/i/xjPWuFLA.mp4"
     },
     {
-      "title": "i miei alibi",
+      "title": "I Miei Alibi",
       "desc": "Visual identity for an independent artist.",
       "media": "https://thumbsnap.com/i/HXf7AoKB.mp4"
     }
   ],
   "header": {
     "description": [
-      "Independent creative with a passion for graphic and motion design.",
+      "Independent creative focused on digital design and motion graphics.",
       "Based in Italy."
     ],
     "services": {
-      "title": "Services:",
       "list": [
-        "Art direction",
+        "Art Direction",
+        "Digital Design",
         "Motion Design",
-        "Visual identity systems",
-        "Social media design systems",
+        "Visual Identity",
         "Creative Consulting"
       ]
     },

@@ -46,9 +46,8 @@ export default defineComponent({
     display: flex;
     align-items: center;
     color: white;
-    padding: 9px 18px 10px 18px;
+    padding: 9px 20px 10px 20px;
     line-height: 10px;
-    border-radius: 100px;
   }
 }
 
@@ -60,6 +59,6 @@ export default defineComponent({
 }
 
 .x-icon svg {
-  transition: transform 0.75s cubic-bezier(0.15, 0.85, 0.25, 0.95);
+  transition: transform 0.8s cubic-bezier(1,0,0,1);
 }
 </style>
