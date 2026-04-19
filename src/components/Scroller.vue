@@ -33,13 +33,11 @@ const props = defineProps({
 const isDragging = ref(false)
 const startX = ref(0)
 const currentTranslate = ref(0)
-const prevTranslate = ref(0)
+const dragDelta = ref(0)
 const currentIndex = ref(0)
 const slideCount = ref(0)
-let animationID = null
 const isChildDragging = ref(false)
 const trackRef = ref(null)
-const isTransitioning = ref(false)
 
 // Removed vertical swipe refs (startY, endY)
 
@@ -50,8 +48,7 @@ const cursorY = ref(0)
 
 // Computed
 const trackStyle = computed(() => ({
-  transform: `translateX(${currentTranslate.value}px)`,
-  transition: isDragging.value || isTransitioning.value ? 'none' : 'transform 0.3s ease-out'
+  transform: `translateX(${currentTranslate.value}px)`
 }))
 
 // Check if the element or any of its parents has the draggable-child class
@@ -83,37 +80,15 @@ const startDrag = (event) => {
   isChildDragging.value = false
   isDragging.value = true
   startX.value = getPositionX(event)
-  // Removed startY initialization
-  cancelAnimation()
+  dragDelta.value = 0
 }
 
 const onDrag = (event) => {
   if (isChildDragging.value) return
 
   if (isDragging.value) {
-    const currentPosition = getPositionX(event)
-    const currentDelta = currentPosition - startX.value
-    currentTranslate.value = prevTranslate.value + currentDelta
-
-    // Removed vertical swipe detection code
-
-    // Add resistance at the edges only if wrap is not enabled
-    if (!props.wrapAround) {
-      if (currentIndex.value === 0 && currentTranslate.value > 0) {
-        currentTranslate.value = currentTranslate.value * 0.3
-      }
-
-      if (
-        currentIndex.value === slideCount.value - 1 &&
-        currentTranslate.value < prevTranslate.value
-      ) {
-        const delta = prevTranslate.value - currentTranslate.value
-        currentTranslate.value = prevTranslate.value - delta * 0.3
-      }
-    }
-
+    dragDelta.value = getPositionX(event) - startX.value
     event.preventDefault()
-    animation()
   }
 }
 
@@ -126,7 +101,7 @@ const endDrag = (event) => {
   // Removed all vertical swipe detection code
 
   isDragging.value = false
-  const movedBy = currentTranslate.value - prevTranslate.value
+  const movedBy = dragDelta.value
 
   // Threshold to determine if slide should change
   if (Math.abs(movedBy) > window.innerWidth * 0.2) {
@@ -139,6 +114,7 @@ const endDrag = (event) => {
     }
   }
 
+  dragDelta.value = 0
   setPositionByIndex()
 }
 
@@ -155,21 +131,7 @@ const setPositionByIndex = () => {
     currentIndex.value = Math.min(Math.max(currentIndex.value, 0), slideCount.value - 1)
   }
 
-  // Calculate the slide offset based on the slide width
-  const offset = -(currentIndex.value * window.innerWidth)
-
-  currentTranslate.value = offset
-  prevTranslate.value = offset
-}
-
-const animation = () => {
-  animationID = requestAnimationFrame(animation)
-}
-
-const cancelAnimation = () => {
-  if (animationID) {
-    cancelAnimationFrame(animationID)
-  }
+  currentTranslate.value = -(currentIndex.value * window.innerWidth)
 }
 
 const handleResize = () => {
@@ -194,7 +156,6 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
   window.removeEventListener('resize', handleResize)
-  cancelAnimation()
 })
 
 function handleClick(event) {

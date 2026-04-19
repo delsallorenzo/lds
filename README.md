@@ -9,12 +9,3 @@ TO deploy the application you can simply run the following command
 ```sh
 npm run deploy
 ```
-
-# TODO
-
-- [] light/dark theme
-- [x] vertical on horizontal scroll
-- [x] photo in mobile must be responsive until 768px;
-- [] check padding/margin - must be 10px;
-- [x] remove scroll bar
-- [] merge branch per font
