@@ -1,8 +1,7 @@
 <template>
   <div class="link-container">
     <div class="link__wrapper">
-      <a :href="link" class="link" target="_blank" rel="noopener noreferrer">{{ text }}</a>
-      <img class="right-arrow" src="@/assets/right-arrow.svg" />
+      <a :href="link" class="link" target="_blank" rel="noopener noreferrer">{{ text }}<img class="right-arrow" src="@/assets/right-arrow.svg" /></a>
     </div>
   </div>
 </template>
@@ -35,10 +34,10 @@ export default defineComponent({
 .right-arrow {
   padding-left: 5px;
   display: none;
-  transition: transform 0.75s cubic-bezier(0.15, 0.85, 0.25, 0.95);
+  transition: transform var(--transition);
 }
 
-.link__wrapper:hover .right-arrow {
+.link:hover .right-arrow {
   display: inline-block;
 }
 

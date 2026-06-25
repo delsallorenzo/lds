@@ -1,4 +1,7 @@
 <template>
+  <div id="kinescope-overlay" :style="{ opacity: loaded ? 1 : 0, transition: 'opacity 0.3s' }" style="position:fixed;inset:0;z-index:0;pointer-events:none">
+    <iframe v-for="(p, i) in kinescopeProjects" :key="i" :data-media="p.media" :src="p.media" allow="autoplay; fullscreen; picture-in-picture; encrypted-media; gyroscope; accelerometer; clipboard-write; screen-wake-lock;" frameborder="0" allowfullscreen style="position:absolute;inset:0;width:100%;height:100%;visibility:hidden;object-fit:cover" :style="{ visibility: activeKinescopeIndex === i ? 'visible' : 'hidden' }"></iframe>
+  </div>
   <section v-if="loaded">
     <Header />
     <Carousel />
@@ -7,38 +10,34 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
+import { store } from './store.js'
 import Carousel from '@/components/Carousel.vue'
 import Header from './components/Header.vue'
 import Landing from './components/Landing.vue'
 import projectList from '@/assets/projectList.json'
 
+const kinescopeProjects = projectList.projects.filter(p => p.media.includes('kinescope.io'))
+const activeKinescopeIndex = computed(() => {
+  const activeProject = projectList.projects[store.activeSlideIndex]
+  if (!activeProject?.media.includes('kinescope.io')) return -1
+  return kinescopeProjects.indexOf(activeProject)
+})
 const loaded = ref(false)
-let resolveAnimation = null
-const animationPromise = new Promise(resolve => { resolveAnimation = resolve })
+const animationDone = ref(false)
+let assetPreloadDone = false
 
 const onAnimationDone = () => {
-  if (resolveAnimation) resolveAnimation()
+  animationDone.value = true
+  if (assetPreloadDone) loaded.value = true
 }
 
 onMounted(() => {
-  const isMobile = /Mobi/i.test(window.navigator.userAgent)
   const assetPromises = []
   projectList.projects.forEach(project => {
-    if (project.media && !isMobile) {
-      assetPromises.push(new Promise((resolve, reject) => {
-        const video = document.createElement('video')
-        video.src = project.media
-        video.oncanplaythrough = () => resolve()
-        video.onerror = () => {
-          console.warn(`Failed to load video: ${project.media}`);
-          resolve()
-        }
-      }))
-    }
     if (project.extraInfo && project.extraInfo.pictures) {
       project.extraInfo.pictures.forEach(picture => {
-        assetPromises.push(new Promise((resolve, reject) => {
+        assetPromises.push(new Promise((resolve) => {
           const img = new Image()
           img.src = picture
           img.onload = () => resolve()
@@ -51,8 +50,9 @@ onMounted(() => {
     }
   })
 
-  Promise.all([...assetPromises, animationPromise]).then(() => {
-    loaded.value = true
+  Promise.all(assetPromises).then(() => {
+    assetPreloadDone = true
+    if (animationDone.value) loaded.value = true
   }).catch(err => {
     console.error("A critical error occurred during preloading.", err)
     loaded.value = true
@@ -98,12 +98,12 @@ body {
   &.dropFromTop {
     animation-name: drop-down-from-top;
     animation-duration: 0.5s;
-    animation-timing-function: cubic-bezier(0.1, 0.9, 0.2, 1);
+    animation-timing-function: var(--ease);
   }
   &.dropToBottom {
     animation-name: drop-down-to-bottom;
     animation-duration: 0.5s;
-    animation-timing-function: cubic-bezier(0.1, 0.9, 0.2, 1);
+    animation-timing-function: var(--ease);
   }
   @keyframes drop-down-from-top {
     from {

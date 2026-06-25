@@ -3,7 +3,7 @@
     <Vue3Lottie
       ref="anim"
       :animationData="animation"
-      :delay="1000"
+      :delay="200"
       class="animation__wrapper"
       :loop="false"
       @onComplete="handleAnimationComplete"
@@ -35,7 +35,9 @@ export default defineComponent({
       this.$refs.anim.play()
     },
     handleAnimationComplete() {
-      this.curtainDrop = true
+      setTimeout(() => {
+        this.curtainDrop = true
+      }, 200)
     },
     handleCurtainAnimationEnd() {
       this.$emit('animationDone')
@@ -59,6 +61,12 @@ export default defineComponent({
     max-width: 17%;
     max-height: 17%;
     filter: invert(1) blur(5px);
+  }
+}
+
+@media (max-width: 800px) {
+  .animation__container .animation__wrapper {
+    filter: invert(1) blur(2px);
   }
 }
 </style>

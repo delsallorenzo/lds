@@ -5,9 +5,8 @@
     :loop="true"
     :allowTouchMove="false"
     :speed="800"
-    cssEase="cubic-bezier(1, 0, 0, 1)"
-    @swiper="onSwiper"
-    @slideChange="onSlideChange"
+    cssEase="cubic-bezier(0.86, 0, 0.07, 1)"
+    @slideChange="swiper => store.activeSlideIndex = swiper.realIndex"
     @mousemove="handleMouseMove($event)"
   >
     <SwiperSlide
@@ -39,20 +38,12 @@ export default defineComponent({
     Swiper,
     SwiperSlide
   },
-  setup() {
-    const onSwiper = () => {}
-    const onSlideChange = () => {}
-    return {
-      onSwiper,
-      onSlideChange
-    }
-  },
   data() {
     return {
       cursorLabel: '',
       cursorX: 0,
       cursorY: 0,
-      slides: [],
+      slides: projectList.projects,
       curtainDrop: false,
       store
     }
@@ -61,7 +52,7 @@ export default defineComponent({
     handleClick(event) {
       
       const swiper = document.querySelector('.swiper').swiper
-      if (event.target.className == 'video') {
+      if (event.target.closest('.video, .iframe-wrap')) {
         const clickX = event.clientX
         clickX > window.innerWidth / 2 ? swiper.slideNext(0) : swiper.slidePrev(0)
       }
@@ -69,17 +60,10 @@ export default defineComponent({
     handleMouseMove(event) {
       this.cursorX = event.clientX
       this.cursorY = event.clientY
-      if (event.target.className == 'video') {
+      if (event.target.closest('.video, .iframe-wrap')) {
         this.cursorLabel = event.clientX > window.innerWidth / 2 ? 'Next' : 'Prev'
       } else {
         this.cursorLabel = ''
-      }
-    },
-    async fetchSlides() {
-      try {
-        this.slides = projectList.projects
-      } catch (error) {
-        console.error('Error fetching data:', error)
       }
     }
   },
@@ -87,7 +71,6 @@ export default defineComponent({
     this.curtainDrop = true
   },
   created() {
-    this.fetchSlides()
     let touchstartY = 0
     let touchendY = 0
     const threshold = 100

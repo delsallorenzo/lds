@@ -59,6 +59,6 @@ export default defineComponent({
 }
 
 .x-icon svg {
-  transition: transform 0.8s cubic-bezier(1,0,0,1);
+  transition: transform var(--transition);
 }
 </style>

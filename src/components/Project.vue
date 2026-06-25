@@ -1,7 +1,7 @@
 <template>
   <section class="project">
     <div class="video-container">
-      <video ref="videoRef" class="video" autoplay loop muted playsinline :src="props.project.media"></video>
+      <div class="iframe-wrap"></div>
       <Button
         id="description-button"
         :textBox="props.project.title"
@@ -73,7 +73,6 @@ const props = defineProps<{
   project: Project
 }>()
 
-const videoRef = ref<HTMLVideoElement | null>(null)
 const descriptionContainer = ref<HTMLElement | null>(null)
 const galleryContainer = ref<HTMLElement | null>(null)
 
@@ -185,10 +184,6 @@ const preventTouchPropagation = (event: TouchEvent) => {
 }
 
 onMounted(() => {
-  if (videoRef.value) {
-    videoRef.value.playbackRate = 1.0
-  }
-  // Initialize images from project's extraInfo if available
   if (props.project.extraInfo?.pictures) {
     images.value = props.project.extraInfo.pictures.map((picturePath, index) => ({
       src: picturePath,
@@ -229,11 +224,19 @@ $mobile-height: 300px;
     justify-content: flex-start;
     align-items: flex-end;
 
-    video {
-      object-fit: cover;
+
+    .iframe-wrap {
+      position: relative;
       width: 100%;
       height: 100%;
+
+      :deep(iframe) {
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+      }
     }
+
   }
 
   .description-container {
@@ -362,7 +365,7 @@ $mobile-height: 300px;
             height: 100%;
             object-fit: cover;
             opacity: 0;
-            transition: opacity 0.8s cubic-bezier(1, 0, 0, 1);
+            transition: opacity var(--transition);
             z-index: 2;
 
             &.loaded {
@@ -402,7 +405,7 @@ $mobile-height: 300px;
 
             .gallery-image {
               opacity: 0;
-              transition: opacity 0.8s cubic-bezier(1, 0, 0, 1);
+              transition: opacity var(--transition);
               z-index: 2;
 
               &.loaded {

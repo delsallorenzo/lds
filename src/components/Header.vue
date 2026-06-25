@@ -14,13 +14,12 @@
       <!-- Content overlay -->
       <div class="content-overlay">
         <div class="title">
-          <p v-for="(line, index) in projectList.header.description" :key="index">
-            {{ line }}
-          </p>
+            <p v-for="(line, index) in projectList.header.description" :key="index">
+              {{ line }}
+            </p>
         </div>
         <div class="contacts__wrapper">
           <div class="services__list">
-            <p>{{ projectList.header.services.title }}</p>
             <p v-for="(line, index) in projectList.header.services.list" :key="index">
               {{ line }}
             </p>
@@ -109,7 +108,7 @@ $header-height: 50px;
   color: #000;
   background-color: rgb(220, 220, 220);
   z-index: 99;
-  transition: transform 0.8s cubic-bezier(1, 0, 0, 1);
+  transition: transform var(--transition);
 
   .info-button {
     width: max-content;
@@ -170,6 +169,12 @@ $header-height: 50px;
 @media screen and (max-width: 800px) {
   .info-container {
     max-height: 87svh;
+  }
+
+  .title {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.3em;
   }
 }
 </style>

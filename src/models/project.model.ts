@@ -7,6 +7,5 @@ export interface Project {
   extraInfo?: ExtraInfo
 }
 export interface ExtraInfo {
-  details: string
   pictures?: string[]
 }

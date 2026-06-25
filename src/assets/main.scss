@@ -9,3 +9,8 @@ body {
     font-weight: 600;
     font-feature-settings: "ss02" on, "ss05" on, "ss06" on, "ss08" on;
 }
+
+::selection {
+    background: transparent;
+    color: hsl(var(--sel-hue, 0), 100%, 50%);
+}
