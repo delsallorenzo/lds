@@ -1,8 +1,10 @@
 <template>
-  <div class="curtain" :class="{ dropToBottom: curtainDrop }"></div>
   <Cursor :label="cursorLabel" :cursorX="cursorX" :cursorY="cursorY" />
   <swiper
     :loop="true"
+    :initialSlide="store.activeSlideIndex"
+    :modules="[Keyboard]"
+    :keyboard="{ enabled: true }"
     :allowTouchMove="false"
     :speed="800"
     cssEase="cubic-bezier(0.86, 0, 0.07, 1)"
@@ -11,11 +13,11 @@
   >
     <SwiperSlide
       v-for="project in this.slides"
-      :key="project"
+      :key="project.slug"
       class="carousel__slide"
       @click="handleClick($event)"
     >
-      <Project :project="project" />
+      <Project :project="project" :active="store.activeSlideIndex === slides.indexOf(project)" />
     </SwiperSlide>
   </swiper>
 </template>
@@ -28,6 +30,7 @@ import projectList from '@/assets/projectList.json'
 import { store } from '@/store'
 
 import { Swiper, SwiperSlide } from 'swiper/vue'
+import { Keyboard } from 'swiper/modules'
 import 'swiper/css'
 
 export default defineComponent({
@@ -44,8 +47,8 @@ export default defineComponent({
       cursorX: 0,
       cursorY: 0,
       slides: projectList.projects,
-      curtainDrop: false,
-      store
+      store,
+      Keyboard
     }
   },
   methods: {
@@ -66,9 +69,6 @@ export default defineComponent({
         this.cursorLabel = ''
       }
     }
-  },
-  mounted() {
-    this.curtainDrop = true
   },
   created() {
     let touchstartY = 0

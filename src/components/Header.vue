@@ -8,12 +8,13 @@
     >
       <!-- Canvas as background -->
       <div class="canvas__background">
-        <Canvas></Canvas>
+        <LogoCanvas v-if="store.headerStatus" />
       </div>
       
       <!-- Content overlay -->
       <div class="content-overlay">
         <div class="title">
+            <h1 class="sr-only">Lorenzo Del Sal — Digital Design &amp; Motion Graphics</h1>
             <p v-for="(line, index) in projectList.header.description" :key="index">
               {{ line }}
             </p>
@@ -44,9 +45,9 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue'
+import { defineComponent, defineAsyncComponent } from 'vue'
 import ButtonComponent from '@/components/Button.vue'
-import Canvas from '@/components/Canvas.vue'
+const LogoCanvas = defineAsyncComponent(() => import('./Canvas.vue'))
 import LinkComponent from '@/components/Link.vue'
 import projectList from '@/assets/projectList.json'
 import { store } from '@/store.js'
@@ -62,7 +63,7 @@ export default defineComponent({
   components: {
     ButtonComponent,
     LinkComponent,
-    Canvas
+    LogoCanvas
   }
 })
 </script>

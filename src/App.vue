@@ -1,63 +1,54 @@
 <template>
-  <div id="kinescope-overlay" :style="{ opacity: loaded ? 1 : 0, transition: 'opacity 0.3s' }" style="position:fixed;inset:0;z-index:0;pointer-events:none">
-    <iframe v-for="(p, i) in kinescopeProjects" :key="i" :data-media="p.media" :src="p.media" allow="autoplay; fullscreen; picture-in-picture; encrypted-media; gyroscope; accelerometer; clipboard-write; screen-wake-lock;" frameborder="0" allowfullscreen style="position:absolute;inset:0;width:100%;height:100%;visibility:hidden;object-fit:cover" :style="{ visibility: activeKinescopeIndex === i ? 'visible' : 'hidden' }"></iframe>
-  </div>
-  <section v-if="loaded">
+  <VideoPlayer v-for="index in nearbyIndices" :key="projects[index].slug" :project="projects[index]" :active="index === store.activeSlideIndex" @ready="onVideoReady(index)" @failed="onVideoReady(index)" />
+  <main :inert="!revealed">
     <Header />
     <Carousel />
-  </section>
-  <Landing v-else @animationDone="onAnimationDone" />
+  </main>
+  <Landing v-if="showIntro" @animationDone="phase = 'cover'" />
+  <div v-if="phase !== 'done'" class="curtain" :class="phase" @animationend="onCurtainEnd"></div>
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from 'vue'
+import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { store } from './store.js'
-import Carousel from '@/components/Carousel.vue'
+import Carousel from './components/Carousel.vue'
 import Header from './components/Header.vue'
 import Landing from './components/Landing.vue'
-import projectList from '@/assets/projectList.json'
+import VideoPlayer from './components/VideoPlayer.vue'
+import projectList from './assets/projectList.json'
 
-const kinescopeProjects = projectList.projects.filter(p => p.media.includes('kinescope.io'))
-const activeKinescopeIndex = computed(() => {
-  const activeProject = projectList.projects[store.activeSlideIndex]
-  if (!activeProject?.media.includes('kinescope.io')) return -1
-  return kinescopeProjects.indexOf(activeProject)
-})
-const loaded = ref(false)
-const animationDone = ref(false)
-let assetPreloadDone = false
-
-const onAnimationDone = () => {
-  animationDone.value = true
-  if (assetPreloadDone) loaded.value = true
+const projects = projectList.projects
+const nearbyIndices = computed(() => [...new Set([0, -1, 1].map(offset => (store.activeSlideIndex + offset + projects.length) % projects.length))])
+const phase = ref('intro')
+const showIntro = ref(true)
+const covered = ref(false)
+const videoReady = ref(false)
+const revealed = ref(false)
+let fallbackTimer
+const reveal = () => {
+  if (covered.value && videoReady.value && phase.value === 'cover') {
+    revealed.value = true
+    phase.value = 'reveal'
+  }
 }
-
+const onVideoReady = index => {
+  if (index !== store.activeSlideIndex) return
+  videoReady.value = true
+  reveal()
+}
+const onCurtainEnd = event => {
+  if (event.target !== event.currentTarget) return
+  if (phase.value === 'cover') {
+    covered.value = true
+    showIntro.value = false
+    reveal()
+  } else if (phase.value === 'reveal') phase.value = 'done'
+}
 onMounted(() => {
-  const assetPromises = []
-  projectList.projects.forEach(project => {
-    if (project.extraInfo && project.extraInfo.pictures) {
-      project.extraInfo.pictures.forEach(picture => {
-        assetPromises.push(new Promise((resolve) => {
-          const img = new Image()
-          img.src = picture
-          img.onload = () => resolve()
-          img.onerror = () => {
-            console.warn(`Failed to load image: ${picture}`);
-            resolve()
-          }
-        }))
-      })
-    }
-  })
-
-  Promise.all(assetPromises).then(() => {
-    assetPreloadDone = true
-    if (animationDone.value) loaded.value = true
-  }).catch(err => {
-    console.error("A critical error occurred during preloading.", err)
-    loaded.value = true
-  })
+  // A slow or unavailable video must never keep the portfolio behind the intro.
+  fallbackTimer = setTimeout(() => { videoReady.value = true; reveal() }, 5000)
 })
+onBeforeUnmount(() => clearTimeout(fallbackTimer))
 </script>
 
 <style lang="scss">
@@ -66,17 +57,6 @@ body {
   overflow: hidden;
   background: black;
 }
-@font-face {
-  font-family: 'UncutSans';
-  font-weight: 600;
-  font-style: normal;
-  font-display: swap;
-  unicode-range: U+000-5FF;
-  src:
-    url('/fonts/UncutSans/UncutSans-Semibold.woff2') format('woff2'),
-    url('/fonts/UncutSans/UncutSans-Semibold.woff') format('woff');
-}
-
 #app {
   font: 600 13px 'UncutSans', Arial, sans-serif;
   letter-spacing: -0.25px;
@@ -87,39 +67,11 @@ body {
   font-feature-settings: "ss02" on, "ss05" on, "ss06" on, "ss08" on;
 }
 
-.curtain {
-  position: fixed;
-  height: 100svh;
-  width: 100svw;
-  background: rgb(245, 245, 245);
-  transform: translateY(-100%);
-  z-index: 999;
-
-  &.dropFromTop {
-    animation-name: drop-down-from-top;
-    animation-duration: 0.5s;
-    animation-timing-function: var(--ease);
-  }
-  &.dropToBottom {
-    animation-name: drop-down-to-bottom;
-    animation-duration: 0.5s;
-    animation-timing-function: var(--ease);
-  }
-  @keyframes drop-down-from-top {
-    from {
-      transform: translateY(-100%);
-    }
-    to {
-      transform: translateY(0);
-    }
-  }
-  @keyframes drop-down-to-bottom {
-    from {
-      transform: translateY(0);
-    }
-    to {
-      transform: translateY(100%);
-    }
-  }
-}
+/* One curtain covers both halves of the intro. */
+.curtain { position: fixed; inset: 0; background: rgb(245, 245, 245); transform: translateY(-100%); z-index: 999; pointer-events: none; }
+.curtain.cover { animation: curtain-cover .5s var(--ease) both; }
+.curtain.reveal { animation: curtain-reveal .5s var(--ease) both; }
+@keyframes curtain-cover { from { transform: translateY(-100%); } to { transform: translateY(0); } }
+@keyframes curtain-reveal { from { transform: translateY(0); } to { transform: translateY(100%); } }
+@media (prefers-reduced-motion: reduce) { .curtain.cover, .curtain.reveal { animation-duration: 1ms; } }
 </style>

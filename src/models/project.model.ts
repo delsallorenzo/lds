@@ -1,4 +1,6 @@
 export interface Project {
+  slug: string
+  poster: string
   title: string
   desc: string
   media: string

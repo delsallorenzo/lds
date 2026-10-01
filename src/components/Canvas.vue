@@ -4,6 +4,7 @@
 
 <script>
 import p5 from 'p5'
+import modelUrl from '../assets/model.txt?url'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
@@ -13,9 +14,6 @@ export default defineComponent({
     window.addEventListener('resize', this.windowResized)
   },
   methods: {
-    scaleValue() {
-      return window.innerWidth <= 900 ? 1 : 2
-    },
     createSketch() {
       const sketch = (p) => {
         let obj
@@ -28,7 +26,7 @@ export default defineComponent({
         let gamma = 0
 
         p.preload = () => {
-          obj = p.loadModel('/3d/model.obj', true)
+          obj = p.loadModel(modelUrl, { normalize: true, fileType: '.obj' })
         }
         p.setup = () => {
           const container = this.$refs.canvas
@@ -75,13 +73,13 @@ export default defineComponent({
       this.p5Instance = new p5(sketch, this.$refs.canvas)
     },
     windowResized() {
-      this.p5Instance.remove()
-      this.createSketch()
-    },
-    beforeDestroy() {
-      this.p5Instance.remove()
-      window.removeEventListener('resize', this.windowResized)
+      const container = this.$refs.canvas
+      this.p5Instance.resizeCanvas(container.offsetWidth, container.offsetHeight)
     }
+  },
+  beforeUnmount() {
+    this.p5Instance?.remove()
+    window.removeEventListener('resize', this.windowResized)
   }
 })
 </script>

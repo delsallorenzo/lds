@@ -1,10 +1,11 @@
 import { reactive } from 'vue'
+import projectList from './assets/projectList.json'
 
 export const store = reactive({
   descriptionStatus: false,
   headerStatus: false,
   theme: localStorage.getItem('theme') || 'light', // Default to light theme
-  activeSlideIndex: 0,
+  activeSlideIndex: Math.max(0, projectList.projects.findIndex(project => project.slug === window.location.hash.slice(1))),
 
   toggleHeader() {
     this.headerStatus = !this.headerStatus
