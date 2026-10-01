@@ -1,5 +1,5 @@
 <template>
-  <section class="animation__container" aria-hidden="true">
+  <section class="animation__container" :data-complete="completed" aria-hidden="true">
     <div ref="container" class="animation__wrapper"></div>
   </section>
 </template>
@@ -16,20 +16,19 @@ let animation
 let startTimer
 let endTimer
 let safetyTimer
-let completed = false
+const completed = ref(false)
 const complete = () => {
-  if (completed) return
-  completed = true
+  if (completed.value) return
+  completed.value = true
+  animation?.goToAndStop(animation.totalFrames - 1, true)
   endTimer = setTimeout(() => emit('animationDone'), 200)
 }
 onMounted(() => {
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    complete()
-    return
-  }
   animation = lottie.loadAnimation({ container: container.value, animationData, renderer: 'svg', loop: false, autoplay: false })
   animation.addEventListener('complete', complete)
-  startTimer = setTimeout(() => animation.play(), 200)
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    animation.addEventListener('DOMLoaded', complete)
+  } else startTimer = setTimeout(() => animation.play(), 200)
   safetyTimer = setTimeout(complete, 3500)
 })
 onBeforeUnmount(() => {

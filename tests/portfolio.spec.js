@@ -45,6 +45,10 @@ test('three circular neighbors, only active playback, gallery and canvas on dema
   await page.locator('.swiper-slide-active .more-info-button').click()
   await expect(page.locator('.swiper-slide-active .gallery-image')).toHaveCount(4)
   await expect.poll(() => page.locator('.swiper-slide-active .gallery-image').first().evaluate(image => image.complete && image.naturalWidth > 0)).toBe(true)
+  await expect.poll(() => page.locator('.swiper-slide-active .gallery-image').first().evaluate(image => {
+    const rect = image.getBoundingClientRect()
+    return Math.abs(rect.width / rect.height - image.naturalWidth / image.naturalHeight)
+  })).toBeLessThan(0.01)
   await page.locator('.info-button').click()
   await expect(page.locator('canvas')).toHaveCount(1, { timeout: 15000 })
   await page.locator('.info-button').click()
@@ -59,18 +63,25 @@ test('unavailable player cannot trap the portfolio behind the intro', async ({ p
   await expect(page.locator('main')).not.toHaveAttribute('inert', '')
   await expect(page.locator('.video-poster')).toHaveCount(1)
   await expect(page.locator('.info-button')).toBeEnabled()
+  await expect(page.locator('.info-button')).toHaveCSS('box-sizing', 'content-box')
+  await expect(page.locator('.swiper-slide-active .description-button')).toHaveCSS('box-sizing', 'content-box')
+  await expect(page.getByText('Project page', { exact: true })).toHaveCount(0)
 })
 
-test('slow player holds the same curtain, then reveals a poster within the timeout', async ({ page }) => {
+test('slow player holds the last LDS frame on black before the curtain starts', async ({ page }) => {
   await page.route('**/iframe.player.js', async route => {
     await new Promise(resolve => setTimeout(resolve, 9000))
     await route.abort()
   })
   await page.goto('/', { waitUntil: 'domcontentloaded' })
-  await expect(page.locator('.curtain.cover')).toBeVisible({ timeout: 4500 })
-  await page.waitForTimeout(650)
-  await expect(page.locator('.animation__container')).toHaveCount(0)
-  await expect(page.locator('.curtain')).toHaveCSS('transform', 'matrix(1, 0, 0, 1, 0, 0)')
+  const intro = page.locator('.animation__container')
+  await expect(intro).toHaveAttribute('data-complete', 'true', { timeout: 4000 })
+  await expect(intro).toHaveCSS('background-color', 'rgb(0, 0, 0)')
+  await expect(page.locator('.curtain')).toHaveClass('curtain intro')
+  const finalFrame = await intro.locator('svg').innerHTML()
+  await page.waitForTimeout(600)
+  expect(await intro.locator('svg').innerHTML()).toBe(finalFrame)
+  await page.screenshot({ path: '../output/lds-audit/corrected-preloader.png' })
   await reveal(page)
 })
 

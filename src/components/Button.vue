@@ -1,5 +1,5 @@
 <template>
-  <button type="button" class="box-wrapper" :aria-expanded="opened" @click="$emit('click')">
+  <div class="box-wrapper" role="button" tabindex="0" :aria-expanded="opened" @click="$emit('click')" @keydown.enter.prevent="$emit('click')" @keydown.space.prevent="$emit('click')">
     <div class="text-box">{{ textBox }}</div>
     <div class="x-icon">
       <svg
@@ -14,7 +14,7 @@
         <line x1="15.8" y1="8.04114" x2="0.199987" y2="8.04114" stroke="white" />
       </svg>
     </div>
-  </button>
+  </div>
 </template>
 
 <script>
@@ -32,11 +32,6 @@ export default defineComponent({
 
 <style scoped>
 .box-wrapper {
-  border: 0;
-  background: transparent;
-  font: inherit;
-  letter-spacing: inherit;
-  text-align: left;
   display: inline-flex;
   gap: 5px;
   padding: 10px;

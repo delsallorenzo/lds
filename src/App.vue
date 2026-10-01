@@ -4,7 +4,7 @@
     <Header />
     <Carousel />
   </main>
-  <Landing v-if="showIntro" @animationDone="phase = 'cover'" />
+  <Landing v-if="showIntro" @animationDone="onAnimationDone" />
   <div v-if="phase !== 'done'" class="curtain" :class="phase" @animationend="onCurtainEnd"></div>
 </template>
 
@@ -21,32 +21,33 @@ const projects = projectList.projects
 const nearbyIndices = computed(() => [...new Set([0, -1, 1].map(offset => (store.activeSlideIndex + offset + projects.length) % projects.length))])
 const phase = ref('intro')
 const showIntro = ref(true)
-const covered = ref(false)
+const animationReady = ref(false)
 const videoReady = ref(false)
 const revealed = ref(false)
 let fallbackTimer
-const reveal = () => {
-  if (covered.value && videoReady.value && phase.value === 'cover') {
-    revealed.value = true
-    phase.value = 'reveal'
-  }
+const startTransition = () => {
+  if (animationReady.value && videoReady.value && phase.value === 'intro') phase.value = 'cover'
+}
+const onAnimationDone = () => {
+  animationReady.value = true
+  startTransition()
 }
 const onVideoReady = index => {
   if (index !== store.activeSlideIndex) return
   videoReady.value = true
-  reveal()
+  startTransition()
 }
 const onCurtainEnd = event => {
   if (event.target !== event.currentTarget) return
   if (phase.value === 'cover') {
-    covered.value = true
     showIntro.value = false
-    reveal()
+    revealed.value = true
+    phase.value = 'reveal'
   } else if (phase.value === 'reveal') phase.value = 'done'
 }
 onMounted(() => {
   // A slow or unavailable video must never keep the portfolio behind the intro.
-  fallbackTimer = setTimeout(() => { videoReady.value = true; reveal() }, 5000)
+  fallbackTimer = setTimeout(() => { videoReady.value = true; startTransition() }, 5000)
 })
 onBeforeUnmount(() => clearTimeout(fallbackTimer))
 </script>

@@ -20,7 +20,6 @@
           <span class="description">{{ props.project.desc }}</span>
           <Link v-if="props.project.link" :text="props.project.linkText" :link="props.project.link" class="link" />
         </div>
-        <a class="project-page-link" :href="`/projects/${props.project.slug}/`">Project page</a>
         <Button
           textBox="More"
           :opened="moreInfoOpen"
@@ -53,8 +52,6 @@
                 :src="image.src"
                 :srcset="image.srcset"
                 sizes="(max-width: 768px) calc(100vw - 20px), 700px"
-                :width="image.width"
-                :height="image.height"
                 decoding="async"
                 loading="lazy"
                 :alt="image.alt"
@@ -230,8 +227,6 @@ $desktop-height: 500px;
 
 $mobile-width: 300px;
 $mobile-height: 300px;
-
-.project-page-link { margin: 0 10px; width: fit-content; color: inherit; }
 
 .project {
   display: flex;

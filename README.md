@@ -12,10 +12,10 @@ The build publishes an HTML fallback, seven static project pages, `robots.txt` a
 
 ## Loading and media
 
-- One curtain covers the LDS intro and reveals the portfolio after the first video starts, with a five-second video fallback. Galleries never block entry.
+- The LDS animation stops on its last frame, keeping the black background and logo until the first video starts (or a five-second video fallback). Only then does the curtain cover and reveal the portfolio, without a gray waiting screen. Galleries never block entry.
 - Only the current, previous and next project players are mounted, wrapping around the carousel. Neighbors preload but remain paused; distant players are destroyed.
 - Mux uses the video component without control UI. Kinescope uses its official iframe API, pinned to `v2.198.3`.
-- Gallery images load when “More” is first opened. WebP variants and dimensions come from `src/assets/images.json`.
+- Gallery images load when “More” is first opened. WebP variants come from `src/assets/images.json`.
 - The p5 canvas mounts only while the information panel is open. The model keeps all vertices and faces with coordinates rounded to six decimals; its `.txt` extension enables normal text compression and its generated asset URL permits immutable caching.
 
 After changing gallery originals, run `npm run images` to regenerate responsive images, posters, the social cover, image metadata and the compact model. Original images remain in `public/images/projects`; the original model is `src/assets/model.obj`.
