@@ -1,5 +1,5 @@
 <template>
-  <div class="box-wrapper" @click="$emit('click')">
+  <div class="box-wrapper" role="button" tabindex="0" :aria-expanded="opened" @click="$emit('click')" @keydown.enter.prevent="$emit('click')" @keydown.space.prevent="$emit('click')">
     <div class="text-box">{{ textBox }}</div>
     <div class="x-icon">
       <svg
@@ -50,6 +50,8 @@ export default defineComponent({
     line-height: 10px;
   }
 }
+
+.box-wrapper:focus-visible { outline: 2px solid white; outline-offset: -4px; }
 
 .x-icon {
   display: flex;

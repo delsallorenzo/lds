@@ -1,0 +1,21 @@
+/* These styles belong only to the HTML fallback, never to the Vue portfolio. */
+html:not(.app-running) body { margin: 0; background: #f0f0f0; overflow: auto; }
+html.js:not(.app-running) body { background: black; overflow: hidden; }
+html.js #app > .static-portfolio { display: none; }
+.static-portfolio { padding: 30px; max-width: 1600px; margin: auto; color: #202020; }
+.static-portfolio a { color: inherit; text-underline-offset: .2em; }
+.static-portfolio a:focus-visible { outline: 2px solid currentColor; outline-offset: 5px; }
+.static-portfolio .static-header { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; padding: 5vh 0 10vh; }
+.static-portfolio .static-header h1 { font-size: clamp(40px,6vw,100px); line-height: .95; margin: 0; grid-row: span 3; }
+.static-portfolio .static-header p { max-width: 500px; margin: 0; font-size: 20px; line-height: 1.4; }
+.static-portfolio nav { display: flex; gap: 25px; }
+.static-portfolio article { position: relative; padding: 32px 0 32px 50px; border-top: 1px solid #aaa; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.static-portfolio .project-number { position: absolute; left: 0; top: 38px; font-size: 13px; }
+.static-portfolio h2 { font-size: clamp(24px,3vw,42px); margin: 0; line-height: 1; }
+.static-portfolio article p { margin: 0; line-height: 1.6; max-width: 650px; font-size: 16px; }
+@media(max-width:700px) {
+  .static-portfolio { padding: 20px; }
+  .static-portfolio .static-header, .static-portfolio article { grid-template-columns: 1fr; }
+  .static-portfolio .static-header { padding: 5vh 0; gap: 20px; }
+  .static-portfolio .static-header h1 { grid-row: auto; margin-bottom: 20px; }
+}

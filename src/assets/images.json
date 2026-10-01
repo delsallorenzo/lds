@@ -1,0 +1,146 @@
+{
+  "/images/projects/ccm/ccm-01.jpg": {
+    "src": "/images/optimized/ccm-01-6226da1978-1400.webp",
+    "srcset": "/images/optimized/ccm-01-6226da1978-700.webp 700w, /images/optimized/ccm-01-6226da1978-1400.webp 1400w",
+    "width": 1407,
+    "height": 1403
+  },
+  "/images/projects/ccm/ccm-02.jpg": {
+    "src": "/images/optimized/ccm-02-c7e6c99eb7-1400.webp",
+    "srcset": "/images/optimized/ccm-02-c7e6c99eb7-700.webp 700w, /images/optimized/ccm-02-c7e6c99eb7-1400.webp 1400w",
+    "width": 1406,
+    "height": 1403
+  },
+  "/images/projects/ccm/ccm-03.jpg": {
+    "src": "/images/optimized/ccm-03-591e2d718d-1400.webp",
+    "srcset": "/images/optimized/ccm-03-591e2d718d-700.webp 700w, /images/optimized/ccm-03-591e2d718d-1400.webp 1400w",
+    "width": 1407,
+    "height": 1403
+  },
+  "/images/projects/ccm/ccm-04.jpg": {
+    "src": "/images/optimized/ccm-04-68a50187d6-1400.webp",
+    "srcset": "/images/optimized/ccm-04-68a50187d6-700.webp 700w, /images/optimized/ccm-04-68a50187d6-1400.webp 1400w",
+    "width": 1406,
+    "height": 1403
+  },
+  "/images/projects/what-if/wi-01.jpg": {
+    "src": "/images/optimized/wi-01-23a8a8821f-1400.webp",
+    "srcset": "/images/optimized/wi-01-23a8a8821f-700.webp 700w, /images/optimized/wi-01-23a8a8821f-1400.webp 1400w",
+    "width": 1407,
+    "height": 1403
+  },
+  "/images/projects/what-if/wi-02.jpg": {
+    "src": "/images/optimized/wi-02-3240be1aec-1400.webp",
+    "srcset": "/images/optimized/wi-02-3240be1aec-700.webp 700w, /images/optimized/wi-02-3240be1aec-1400.webp 1400w",
+    "width": 1407,
+    "height": 1403
+  },
+  "/images/projects/what-if/wi-03.jpg": {
+    "src": "/images/optimized/wi-03-6fb84b2378-1400.webp",
+    "srcset": "/images/optimized/wi-03-6fb84b2378-700.webp 700w, /images/optimized/wi-03-6fb84b2378-1400.webp 1400w",
+    "width": 1406,
+    "height": 1403
+  },
+  "/images/projects/what-if/wi-04.jpg": {
+    "src": "/images/optimized/wi-04-65b343338c-1400.webp",
+    "srcset": "/images/optimized/wi-04-65b343338c-700.webp 700w, /images/optimized/wi-04-65b343338c-1400.webp 1400w",
+    "width": 1407,
+    "height": 1403
+  },
+  "/images/projects/what-if/wi-05.jpg": {
+    "src": "/images/optimized/wi-05-a4e0be8e50-1400.webp",
+    "srcset": "/images/optimized/wi-05-a4e0be8e50-700.webp 700w, /images/optimized/wi-05-a4e0be8e50-1400.webp 1400w",
+    "width": 1406,
+    "height": 1403
+  },
+  "/images/projects/club-recordo/cr-01.jpg": {
+    "src": "/images/optimized/cr-01-dd0a4e4ad4-1400.webp",
+    "srcset": "/images/optimized/cr-01-dd0a4e4ad4-700.webp 700w, /images/optimized/cr-01-dd0a4e4ad4-1400.webp 1400w",
+    "width": 1407,
+    "height": 1403
+  },
+  "/images/projects/club-recordo/cr-02.jpg": {
+    "src": "/images/optimized/cr-02-23ba117c55-1400.webp",
+    "srcset": "/images/optimized/cr-02-23ba117c55-700.webp 700w, /images/optimized/cr-02-23ba117c55-1400.webp 1400w",
+    "width": 1406,
+    "height": 1403
+  },
+  "/images/projects/club-recordo/cr-03.jpg": {
+    "src": "/images/optimized/cr-03-e39dafc518-1400.webp",
+    "srcset": "/images/optimized/cr-03-e39dafc518-700.webp 700w, /images/optimized/cr-03-e39dafc518-1400.webp 1400w",
+    "width": 1407,
+    "height": 1403
+  },
+  "/images/projects/club-recordo/cr-04.jpg": {
+    "src": "/images/optimized/cr-04-19d27981a3-1400.webp",
+    "srcset": "/images/optimized/cr-04-19d27981a3-700.webp 700w, /images/optimized/cr-04-19d27981a3-1400.webp 1400w",
+    "width": 1406,
+    "height": 1403
+  },
+  "/images/projects/club-recordo/cr-05.jpg": {
+    "src": "/images/optimized/cr-05-3d8f4bf83a-1400.webp",
+    "srcset": "/images/optimized/cr-05-3d8f4bf83a-700.webp 700w, /images/optimized/cr-05-3d8f4bf83a-1400.webp 1400w",
+    "width": 1407,
+    "height": 1403
+  },
+  "/images/projects/club-recordo/cr-06.jpg": {
+    "src": "/images/optimized/cr-06-b4c44236e9-1400.webp",
+    "srcset": "/images/optimized/cr-06-b4c44236e9-700.webp 700w, /images/optimized/cr-06-b4c44236e9-1400.webp 1400w",
+    "width": 1407,
+    "height": 1403
+  },
+  "/images/projects/club-recordo/cr-07.jpg": {
+    "src": "/images/optimized/cr-07-f514b2fde7-1400.webp",
+    "srcset": "/images/optimized/cr-07-f514b2fde7-700.webp 700w, /images/optimized/cr-07-f514b2fde7-1400.webp 1400w",
+    "width": 1406,
+    "height": 1403
+  },
+  "/images/projects/aphex-twin/bbb-01.jpg": {
+    "src": "/images/optimized/bbb-01-b80adcd371-1400.webp",
+    "srcset": "/images/optimized/bbb-01-b80adcd371-700.webp 700w, /images/optimized/bbb-01-b80adcd371-1400.webp 1400w",
+    "width": 1407,
+    "height": 1403
+  },
+  "/images/projects/aphex-twin/bbb-02.jpg": {
+    "src": "/images/optimized/bbb-02-2df8589295-1400.webp",
+    "srcset": "/images/optimized/bbb-02-2df8589295-700.webp 700w, /images/optimized/bbb-02-2df8589295-1400.webp 1400w",
+    "width": 1406,
+    "height": 1403
+  },
+  "/images/projects/aphex-twin/bbb-03.jpg": {
+    "src": "/images/optimized/bbb-03-ba2a73acfc-1400.webp",
+    "srcset": "/images/optimized/bbb-03-ba2a73acfc-700.webp 700w, /images/optimized/bbb-03-ba2a73acfc-1400.webp 1400w",
+    "width": 1407,
+    "height": 1403
+  },
+  "/images/projects/aphex-twin/bbb-04.jpg": {
+    "src": "/images/optimized/bbb-04-6815243f63-1400.webp",
+    "srcset": "/images/optimized/bbb-04-6815243f63-700.webp 700w, /images/optimized/bbb-04-6815243f63-1400.webp 1400w",
+    "width": 1406,
+    "height": 1403
+  },
+  "/images/projects/leonardo-ferro/lf-01.jpg": {
+    "src": "/images/optimized/lf-01-8f6d7feb93-1400.webp",
+    "srcset": "/images/optimized/lf-01-8f6d7feb93-700.webp 700w, /images/optimized/lf-01-8f6d7feb93-1400.webp 1400w",
+    "width": 1406,
+    "height": 1403
+  },
+  "/images/projects/leonardo-ferro/lf-02.jpg": {
+    "src": "/images/optimized/lf-02-49e34be7b2-1400.webp",
+    "srcset": "/images/optimized/lf-02-49e34be7b2-700.webp 700w, /images/optimized/lf-02-49e34be7b2-1400.webp 1400w",
+    "width": 1406,
+    "height": 1403
+  },
+  "/images/projects/leonardo-ferro/lf-03.jpg": {
+    "src": "/images/optimized/lf-03-654839780d-1400.webp",
+    "srcset": "/images/optimized/lf-03-654839780d-700.webp 700w, /images/optimized/lf-03-654839780d-1400.webp 1400w",
+    "width": 1406,
+    "height": 1403
+  },
+  "/images/projects/leonardo-ferro/lf-04.jpg": {
+    "src": "/images/optimized/lf-04-fbd8f2ef79-1400.webp",
+    "srcset": "/images/optimized/lf-04-fbd8f2ef79-700.webp 700w, /images/optimized/lf-04-fbd8f2ef79-1400.webp 1400w",
+    "width": 1406,
+    "height": 1403
+  }
+}

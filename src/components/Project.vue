@@ -1,9 +1,11 @@
 <template>
-  <section class="project">
+  <section class="project" :aria-hidden="!active" :inert="!active">
+    <h2 class="sr-only">{{ props.project.title }}</h2>
     <div class="video-container">
       <div class="iframe-wrap"></div>
       <Button
-        id="description-button"
+        class="description-button"
+        :id="`description-button-${props.project.slug}`"
         :textBox="props.project.title"
         :opened="descriptionStatus"
         @click="toggleDescription"
@@ -16,7 +18,7 @@
            @touchend="preventTouchPropagation($event)">
         <div class="description-text">
           <span class="description">{{ props.project.desc }}</span>
-          <Link :text="props.project.linkText" :link="props.project.link" class="link" />
+          <Link v-if="props.project.link" :text="props.project.linkText" :link="props.project.link" class="link" />
         </div>
         <Button
           textBox="More"
@@ -28,7 +30,7 @@
         <div
           class="gallery"
           :class="{ open: moreInfoOpen }"
-          v-if="props.project.extraInfo"
+          v-if="props.project.extraInfo && galleryVisited"
         >
           <div
             ref="galleryContainer"
@@ -48,6 +50,10 @@
                 class="gallery-image"
                 :class="{ loaded: image.loaded }"
                 :src="image.src"
+                :srcset="image.srcset"
+                sizes="(max-width: 768px) calc(100vw - 20px), 700px"
+                decoding="async"
+                loading="lazy"
                 :alt="image.alt"
                 draggable="false"
                 @load="onImageLoad(index)"
@@ -64,13 +70,15 @@
 <script lang="ts" setup>
 import { Project } from '@/models/project.model'
 import { store } from '@/store.js'
-import { computed, onMounted, ref, watch, onUnmounted } from 'vue'
+import { computed, nextTick, ref, watch, onUnmounted } from 'vue'
+import optimizedImages from '../assets/images.json'
 import Button from './Button.vue'
 import Link from './Link.vue'
 import Lenis from 'lenis'
 
 const props = defineProps<{
   project: Project
+  active: boolean
 }>()
 
 const descriptionContainer = ref<HTMLElement | null>(null)
@@ -113,12 +121,15 @@ const onGalleryMouseUp = () => {
   }
 }
 
-const descriptionStatus = computed(() => store.descriptionStatus)
+const descriptionStatus = computed(() => props.active && store.descriptionStatus)
 const moreInfoOpen = ref(false)
+const galleryVisited = ref(false)
 
 let descriptionLenis: Lenis | null = null
 let galleryLenis: Lenis | null = null
-let rafHandle: number;
+let rafHandle: number | undefined
+let descriptionCloseTimer: ReturnType<typeof setTimeout>
+let galleryCloseTimer: ReturnType<typeof setTimeout>
 
 function raf(time: number) {
   descriptionLenis?.raf(time)
@@ -126,30 +137,38 @@ function raf(time: number) {
   rafHandle = requestAnimationFrame(raf)
 }
 
-watch(descriptionStatus, (newValue) => {
-  if (newValue && descriptionContainer.value && !descriptionLenis) {
-    descriptionLenis = new Lenis({
-      wrapper: descriptionContainer.value,
-    })
-  } else if (!newValue && descriptionLenis) {
-    setTimeout(() => {
+watch(descriptionStatus, async (open) => {
+  clearTimeout(descriptionCloseTimer)
+  if (open) {
+    await nextTick()
+    if (descriptionStatus.value && descriptionContainer.value && !descriptionLenis) {
+      descriptionLenis = new Lenis({ wrapper: descriptionContainer.value })
+    }
+    if (rafHandle === undefined) rafHandle = requestAnimationFrame(raf)
+  } else {
+    moreInfoOpen.value = false
+    descriptionCloseTimer = setTimeout(() => {
       descriptionLenis?.destroy()
       descriptionLenis = null
-    }, 800) // Wait for the closing animation to finish
+      if (rafHandle !== undefined) cancelAnimationFrame(rafHandle)
+      rafHandle = undefined
+    }, 800)
   }
 })
 
-watch(moreInfoOpen, (newValue) => {
-  if (newValue && galleryContainer.value && !galleryLenis) {
-    galleryLenis = new Lenis({
-      wrapper: galleryContainer.value,
-      orientation: 'horizontal',
-    })
-  } else if (!newValue && galleryLenis) {
-    setTimeout(() => {
+watch(moreInfoOpen, async (open) => {
+  clearTimeout(galleryCloseTimer)
+  if (open) {
+    galleryVisited.value = true
+    await nextTick()
+    if (moreInfoOpen.value && galleryContainer.value && !galleryLenis) {
+      galleryLenis = new Lenis({ wrapper: galleryContainer.value, orientation: 'horizontal' })
+    }
+  } else {
+    galleryCloseTimer = setTimeout(() => {
       galleryLenis?.destroy()
       galleryLenis = null
-    }, 800) // Wait for the closing animation to finish
+    }, 800)
   }
 })
 
@@ -159,11 +178,18 @@ const toggleDescription = () => {
 
 interface ImageItem {
   src: string
+  srcset: string
+  width: number
+  height: number
   alt: string
   loaded: boolean
 }
 
-const images = ref<ImageItem[]>([])
+const images = ref<ImageItem[]>((props.project.extraInfo?.pictures || []).map((picturePath, index) => ({
+  ...optimizedImages[picturePath as keyof typeof optimizedImages],
+  alt: `${props.project.title} — detail ${index + 1}`,
+  loaded: false
+})))
 
 const toggleMoreInfo = () => {
   moreInfoOpen.value = !moreInfoOpen.value
@@ -183,21 +209,12 @@ const preventTouchPropagation = (event: TouchEvent) => {
   event.stopPropagation()
 }
 
-onMounted(() => {
-  if (props.project.extraInfo?.pictures) {
-    images.value = props.project.extraInfo.pictures.map((picturePath, index) => ({
-      src: picturePath,
-      alt: `${props.project.title} image ${index + 1}`,
-      loaded: false
-    }))
-  }
-  rafHandle = requestAnimationFrame(raf)
-})
-
 onUnmounted(() => {
   descriptionLenis?.destroy()
   galleryLenis?.destroy()
-  cancelAnimationFrame(rafHandle)
+  if (rafHandle !== undefined) cancelAnimationFrame(rafHandle)
+  clearTimeout(descriptionCloseTimer)
+  clearTimeout(galleryCloseTimer)
 })
 </script>
 
@@ -429,7 +446,7 @@ $mobile-height: 300px;
   }
 }
 
-#description-button {
+.description-button {
   position: absolute;
 }
 </style>

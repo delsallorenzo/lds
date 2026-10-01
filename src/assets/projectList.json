@@ -11,12 +11,14 @@
           "/images/projects/ccm/ccm-03.jpg",
           "/images/projects/ccm/ccm-04.jpg"
         ]
-      }
+      },
+      "slug": "club-culture-month",
+      "poster": "/posters/club-culture-month.webp"
     },
     {
       "title": "What If Events",
       "desc": "What If Events is an association dedicated to cultural and social promotion in the city of Padua. Comprising a group of volunteers under 30, driven by the desire to create welcoming and dynamic social networks and performance spaces. The association's activities include organizing events and initiatives, complemented by the use of social media channels. Through these channels, an event guide has been created for the daily publication of reminders about ongoing events.",
-      "media": "https://kinescope.io/embed/xrFQd9NVdbT2fubqkvYgrv",
+      "media": "https://player.mux.com/XlxwSW2kGkX9Tzimm3pQGX02OX7BIHxDgf01OYyt7KTKM",
       "link": "https://www.instagram.com/whatif.events/",
       "linkText": "Instagram",
       "extraInfo": {
@@ -27,7 +29,9 @@
           "/images/projects/what-if/wi-04.jpg",
           "/images/projects/what-if/wi-05.jpg"
         ]
-      }
+      },
+      "slug": "what-if-events",
+      "poster": "/posters/what-if-events.webp"
     },
     {
       "title": "Club Recordo",
@@ -45,7 +49,9 @@
           "/images/projects/club-recordo/cr-06.jpg",
           "/images/projects/club-recordo/cr-07.jpg"
         ]
-      }
+      },
+      "slug": "club-recordo",
+      "poster": "/posters/club-recordo.webp"
     },
     {
       "title": "Aphex Twin: Bucephalus Transposed",
@@ -60,7 +66,9 @@
           "/images/projects/aphex-twin/bbb-03.jpg",
           "/images/projects/aphex-twin/bbb-04.jpg"
         ]
-      }
+      },
+      "slug": "aphex-twin-bucephalus-transposed",
+      "poster": "/posters/aphex-twin-bucephalus-transposed.webp"
     },
     {
       "title": "Leonardo Ferro",
@@ -75,17 +83,23 @@
           "/images/projects/leonardo-ferro/lf-03.jpg",
           "/images/projects/leonardo-ferro/lf-04.jpg"
         ]
-      }
+      },
+      "slug": "leonardo-ferro",
+      "poster": "/posters/leonardo-ferro.webp"
     },
     {
       "title": "Goto",
       "desc": "Title design and typography crafted for the film celebrating the 30th anniversary of Goto, an emblematic glass produced by Laguna~B. The approach reimagines the typeface to reflect the product's rounded, playful forms while honoring its Venetian heritage. 'Goto' - meaning glass in Venetian - anchors the design in tradition, reflecting Laguna~B's innovative vision since its inception.",
-      "media": "https://kinescope.io/embed/aFa5vybGU5WHFxbPtb5Vtf"
+      "media": "https://kinescope.io/embed/aFa5vybGU5WHFxbPtb5Vtf",
+      "slug": "goto",
+      "poster": "/posters/goto.webp"
     },
     {
       "title": "I Miei Alibi",
       "desc": "Visual identity for an independent artist.",
-      "media": "https://kinescope.io/embed/6c5csiATbvovttsFRNM8Wp"
+      "media": "https://kinescope.io/embed/6c5csiATbvovttsFRNM8Wp",
+      "slug": "i-miei-alibi",
+      "poster": "/posters/i-miei-alibi.webp"
     }
   ],
   "header": {
